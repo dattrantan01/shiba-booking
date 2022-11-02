@@ -2,6 +2,7 @@ import React from "react";
 import Button from "../components/button/Button";
 import LocationItem from "../components/location/LocationItem";
 import { BsSearch } from "react-icons/bs";
+import { AiOutlinePlus } from "react-icons/ai";
 
 const LocationPage = () => {
   return (
@@ -16,8 +17,12 @@ const LocationPage = () => {
           <BsSearch className="absolute right-[10px] top-[35%]" />
         </div>
         <Button>Search</Button>
-
-        <Button>Add Location</Button>
+        <Button>
+          <div className="flex flex-row items-center gap-1 font-semibold">
+            <AiOutlinePlus className="text-2xl" />
+            <span>Add Location</span>
+          </div>
+        </Button>
       </div>
       <div className="location-list grid grid-cols-3 gap-1 w-full gap-y-3 mt-10">
         <LocationItem />

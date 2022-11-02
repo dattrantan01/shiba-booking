@@ -24,26 +24,29 @@ const items = [
 
 const Sidebar = () => {
   return (
-    <div className="w-[300px] h-full bg-orange-100 flex flex-col pt-5 px-3 items-center pb-3 ">
-      <div className="font-bungee text-xl ">Shiba booking</div>
-      <div className="flex flex-col w-full items-center mt-10 ">
+    <div className="w-[300px] h-full bg-backgroundSidebar shadow-lg flex flex-col pt-5  items-center text-slate-500">
+      <div className="font-bungee text-xl text-primary ">Shiba booking</div>
+      <div className="flex flex-col w-full items-center mt-10 px-3">
         {items.map((item) => {
           return (
             <NavLink
               to={item.path}
+              key={item.path}
               className={({ isActive }) =>
-                `w-full h-11 font-semibold cursor-pointer flex flex-row items-center justify-start pl-4 hover:bg-orange-50 rounded-lg gap-5 hover:text-orange-500 text-slate-700 ${
-                  isActive && "text-orange-500 bg-orange-50"
+                `w-full h-11 font-semibold cursor-pointer flex flex-row items-center justify-start pl-4 hover:border-primary border-l-transparent border-l-4 gap-5 hover:text-primary  ${
+                  isActive
+                    ? " hover:text-primary  text-primary border-l-primary"
+                    : "text-slate-500 hover:border-l-transparent"
                 }`
               }
             >
-              <span className="text-2xl text-orange-700">{item.icon}</span>
+              <span className="text-2xl text-primay">{item.icon}</span>
               <span>{item.title}</span>
             </NavLink>
           );
         })}
       </div>
-      <div className="user mt-auto w-full h-12 flex flew-row gap-3 items-center px-1 bg-orange-50 rounded-lg">
+      <div className="user mt-auto w-full h-[70px] flex flew-row gap-3 items-center px-1 py-3 border-t-slate-300 border-t">
         <div className="w-11 h-11">
           <img
             src="https://images.unsplash.com/photo-1666884549364-9754b21d07d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
@@ -51,7 +54,7 @@ const Sidebar = () => {
             className="w-full h-full object-cover rounded-full"
           />
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col text-slate-600">
           <span className="font-semibold">Tôn Nữ Hoàng Giang</span>
           <span className="text-sm">Admin</span>
         </div>

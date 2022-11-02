@@ -11,7 +11,7 @@ const Input = ({ name, type = "text", control, ...props }) => {
     <input
       type={type}
       id={name}
-      className="w-full p-4 rounded-xl outline-none border-noColor border bg-grayLight focus:border-primary"
+      className="w-full p-4 rounded-xl outline-none border-slate-300 border bg-grayLight focus:border-primary"
       {...field}
       {...props}
     />
