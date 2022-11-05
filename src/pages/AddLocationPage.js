@@ -29,7 +29,7 @@ const AddLocationPage = () => {
   });
   const onSubmit = (value) => {};
   return (
-    <div className="p-8 w-full h-full">
+    <div className="p-8 w-full">
       <h1 className="font-bold text-2xl text-primary">ADD NEW LOCATION</h1>
       <form
         className="w-full max-w-[800px] mt-8"
@@ -55,12 +55,13 @@ const AddLocationPage = () => {
             control={control}
           ></Input>
         </Field>
+
         <Field>
           <Label htmlFor="desc">Description</Label>
           <textarea
             id="desc"
             name="desc"
-            className="w-full min-h-[200px] outline-none border border-slate-300 focus:border-primary rounded-xl p-4"
+            className="w-full max-w-[500px] min-h-[200px] outline-none border border-slate-300 focus:border-primary rounded-xl p-4"
           ></textarea>
         </Field>
         <Toggle name="active" control={control}>

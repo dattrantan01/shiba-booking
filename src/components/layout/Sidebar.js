@@ -3,6 +3,7 @@ import { MdOutlineMapsHomeWork } from "react-icons/md";
 import { HiOutlineUsers } from "react-icons/hi";
 import { MdOutlineBusinessCenter } from "react-icons/md";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../context/auth-context";
 
 const items = [
   {
@@ -23,6 +24,8 @@ const items = [
 ];
 
 const Sidebar = () => {
+  const { user } = useAuth();
+
   return (
     <div className="w-[300px] h-full bg-backgroundSidebar shadow-lg flex flex-col pt-5  items-center text-slate-500">
       <div className="font-bungee text-xl text-primary ">Shiba booking</div>
@@ -49,13 +52,13 @@ const Sidebar = () => {
       <div className="user mt-auto w-full h-[70px] flex flew-row gap-3 items-center px-1 py-3 border-t-slate-300 border-t">
         <div className="w-11 h-11">
           <img
-            src="https://images.unsplash.com/photo-1666884549364-9754b21d07d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
+            src={user?.avatar}
             alt=""
             className="w-full h-full object-cover rounded-full"
           />
         </div>
         <div className="flex flex-col text-slate-600">
-          <span className="font-semibold">Tôn Nữ Hoàng Giang</span>
+          <span className="font-semibold">{user?.fullName}</span>
           <span className="text-sm">Admin</span>
         </div>
       </div>

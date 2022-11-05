@@ -3,8 +3,10 @@ import Button from "../components/button/Button";
 import LocationItem from "../components/location/LocationItem";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const LocationPage = () => {
+  const navigate = useNavigate();
   return (
     <div className="p-8 w-full h-full">
       <div className="search flex flex-row justify-center items-center gap-2">
@@ -17,7 +19,7 @@ const LocationPage = () => {
           <BsSearch className="absolute right-[10px] top-[35%]" />
         </div>
         <Button>Search</Button>
-        <Button>
+        <Button onClick={() => navigate("/locations/add")}>
           <div className="flex flex-row items-center gap-1 font-semibold">
             <AiOutlinePlus className="text-2xl" />
             <span>Add Location</span>

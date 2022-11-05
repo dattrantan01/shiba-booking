@@ -6,7 +6,10 @@ import Input from "../components/input/Input";
 import Label from "../components/label/Label";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
+import http from "../config/axiosConfig";
+import { useAuth } from "../context/auth-context";
 
 const LoginPage = () => {
   const schema = yup
@@ -25,7 +28,6 @@ const LoginPage = () => {
     handleSubmit,
     control,
     formState: { errors },
-    // watch,
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onSubmit",
@@ -34,20 +36,25 @@ const LoginPage = () => {
       password: "",
     },
   });
+  const navigate = useNavigate();
+  const { user, setUser } = useAuth();
   const onSubmit = (e) => {
+    console.log(e);
     login(e);
   };
 
   function login(value) {
-    // axios
-    //   .post("auth/login", value)
-    //   .then((res) => {
-    //     console.log("login success: ", res);
-    //     localStorage.setItem("token", res.data.token);
-    //   })
-    //   .catch((err) => {
-    //     console.log("error: ", err);
-    //   });
+    http
+      .post("users/login", value)
+      .then((res) => {
+        console.log("login success: ", res);
+        localStorage.setItem("token", res.data.token);
+        setUser(res.data.user);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log("error: ", err);
+      });
   }
 
   return (
@@ -61,9 +68,6 @@ const LoginPage = () => {
           />
         </div>
         <div className="w-[50%] h-[100%] flex flex-col px-8 justify-center">
-          {/* <h1 className="font-bungee text-5xl text-center mb-7 text-primary">
-            Coworking
-          </h1> */}
           <form onSubmit={handleSubmit(onSubmit)}>
             <Field>
               <Label name="username">Email</Label>
