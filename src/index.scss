@@ -7,7 +7,9 @@
   
     body {
       font-family: "Inter", sans-serif;
-      background-color: #FFEAEE;
+      // background-color: #fffbfb;
+      // background-image: linear-gradient(to bottom right, #a18cd1, #fbc2eb);
+      background-image: radial-gradient(circle, rgba(242,171,202,1) 0%, rgba(245,229,250,1) 51%);
     }
     td {
       vertical-align: middle;

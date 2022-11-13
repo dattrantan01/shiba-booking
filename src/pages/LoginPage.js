@@ -49,6 +49,7 @@ const LoginPage = () => {
       .then((res) => {
         console.log("login success: ", res);
         localStorage.setItem("token", res.data.token);
+
         setUser(res.data.user);
         navigate("/");
       })

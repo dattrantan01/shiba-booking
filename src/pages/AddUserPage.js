@@ -9,6 +9,7 @@ import Button from "../components/button/Button";
 import Radio from "../components/radio/Radio";
 import { toast } from "react-toastify";
 import http from "../config/axiosConfig";
+import { useNavigate } from "react-router-dom";
 
 const schema = yup.object({
   email: yup
@@ -43,6 +44,7 @@ const AddUserPage = () => {
       gender: 1,
     },
   });
+  const navigate = useNavigate();
   const watchGender = watch("gender");
   const watchpasswordConfirm = watch("passwordConfirm");
   useEffect(() => {
@@ -60,6 +62,7 @@ const AddUserPage = () => {
       gender: values.gende === 1 ? false : true,
       password: values.password,
       phone: values.phone,
+      roleId: "636723c71f1cbcef36804e82",
       avatar:
         "https://images.unsplash.com/photo-1667506057200-e55b56ee2b44?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
     };
@@ -68,6 +71,7 @@ const AddUserPage = () => {
       .post("users", user)
       .then((res) => {
         console.log(res);
+        navigate("users");
       })
       .catch((err) => {
         console.log(err);

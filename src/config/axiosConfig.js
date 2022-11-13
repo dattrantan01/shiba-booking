@@ -4,7 +4,8 @@ import { toast } from "react-toastify";
 class Http {
   constructor() {
     this.instance = axios.create({
-      baseURL: "http://192.168.10.41:3000/api/v1/",
+      // baseURL: "http://192.168.10.41:3000/api/v1/",
+      baseURL: "https://shibabooking.herokuapp.com/api/booking/",
       timeout: 10000,
       headers: {
         "Content-Type": "application/json",
@@ -30,7 +31,7 @@ class Http {
       (config) => {
         const accessToken = localStorage.getItem("token");
         if (accessToken) {
-          config.headers.token = `Bearer ${accessToken}`;
+          config.headers.authorization = `Bearer ${accessToken}`;
         }
         return config;
       },
