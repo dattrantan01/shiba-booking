@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import Field from "../components/field/Field";
-import Input from "../components/input/Input";
-import Label from "../components/label/Label";
-import Button from "../components/button/Button";
-import Radio from "../components/radio/Radio";
+import Field from "../../components/field/Field";
+import Input from "../../components/input/Input";
+import Label from "../../components/label/Label";
+import Button from "../../components/button/Button";
+import Radio from "../../components/radio/Radio";
 import { toast } from "react-toastify";
-import http from "../config/axiosConfig";
+import http from "../../config/axiosConfig";
 import { useNavigate } from "react-router-dom";
 
 const schema = yup.object({
@@ -70,8 +70,7 @@ const AddUserPage = () => {
     await http
       .post("users", user)
       .then((res) => {
-        console.log(res);
-        navigate("users");
+        navigate("/users");
       })
       .catch((err) => {
         console.log(err);

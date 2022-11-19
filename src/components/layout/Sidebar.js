@@ -19,7 +19,7 @@ const items = [
   {
     icon: <MdOutlineBusinessCenter></MdOutlineBusinessCenter>,
     title: "Business",
-    path: "/business",
+    path: "/businesses",
   },
 ];
 

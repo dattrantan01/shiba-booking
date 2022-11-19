@@ -11,7 +11,7 @@ const LocationPage = () => {
   const [locations, setLocations] = useState([]);
   const getLocations = () => {
     http.get(`locations/1/business`).then((res) => {
-      console.log(res);
+      // console.log(res);
       setLocations(res.data);
     });
   };

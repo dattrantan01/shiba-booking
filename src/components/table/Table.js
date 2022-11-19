@@ -9,7 +9,7 @@ const Table = ({ head, data, linkTo, handleDelete }) => {
   return (
     <div className="w-full overflow-x-auto shadow-md rounded-lg">
       <table className="w-full text-sm">
-        <thead className="bg-red-200">
+        <thead className="bg-red-500">
           <tr>
             <th>ID</th>
             {head?.length &&

@@ -3,29 +3,17 @@ import { useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import Field from "../components/field/Field";
-import Input from "../components/input/Input";
-import Label from "../components/label/Label";
-import Button from "../components/button/Button";
-import Radio from "../components/radio/Radio";
-import Dropdown from "../components/dropdown/Dropdown";
-import Select from "../components/dropdown/Select";
-import List from "../components/dropdown/List";
-import Option from "../components/dropdown/Option";
+import Field from "../../components/field/Field";
+import Input from "../../components/input/Input";
+import Label from "../../components/label/Label";
+import Button from "../../components/button/Button";
+import Radio from "../../components/radio/Radio";
+import Dropdown from "../../components/dropdown/Dropdown";
+import Select from "../../components/dropdown/Select";
+import List from "../../components/dropdown/List";
+import Option from "../../components/dropdown/Option";
 import { toast } from "react-toastify";
-import http from "../config/axiosConfig";
-import { useDropdown } from "../components/dropdown/dropdown-context";
-
-const roleData = [
-  {
-    id: 1,
-    type: "Admin",
-  },
-  {
-    id: 2,
-    type: "Super Admin",
-  },
-];
+import http from "../../config/axiosConfig";
 
 const schema = yup.object({
   email: yup
@@ -48,6 +36,7 @@ const UserDetailPage = () => {
   const [user, setUser] = useState({});
   const [edit, setEdit] = useState(true);
   const [roleType, setRoleType] = useState("");
+  const [roles, setRoles] = useState([]);
 
   const {
     handleSubmit,
@@ -61,12 +50,13 @@ const UserDetailPage = () => {
     resolver: yupResolver(schema),
     mode: "onSubmit",
     defaultValues: {
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      phone: user.phone,
+      email: "",
+      firstName: "",
+      lastName: "",
+      phone: "",
       password: "",
-      gender: user.gender ? 1 : 2,
+      gender: 1,
+      roleId: "",
     },
   });
   const watchGender = watch("gender");
@@ -77,16 +67,25 @@ const UserDetailPage = () => {
       .then((res) => {
         setUser(res.data);
         reset({
-          email: res.data.email,
-          firstName: res.data.firstName,
-          lastName: res.data.lastName,
-          phone: res.data.phone,
-          gender: res.data.gender ? 1 : 2,
+          email: res?.data?.email,
+          firstName: res?.data?.firstName,
+          lastName: res?.data?.lastName,
+          phone: res?.data?.phone,
+          gender: res?.data?.gender === "Female" ? 2 : 1,
+          roleId: res?.data?.role.id,
         });
-        // setValue("roleId")
+        setRoleType(res?.data?.role.name);
       })
       .catch((err) => console.error(err));
   }, [userid, setUser, reset]);
+  useEffect(() => {
+    http
+      .get("roles")
+      .then((res) => {
+        setRoles(res?.data?.rows);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   useEffect(() => {
     const errorsList = Object.values(errors);
     if (errorsList.length > 0) {
@@ -99,37 +98,38 @@ const UserDetailPage = () => {
       firstName: values.firstName,
       lastName: values.lastName,
       email: values.email,
-      gender: values.gender === 1 ? false : true,
+      gender: values.gender == 1 ? true : false,
       phone: values.phone,
       roleId: values.roleId,
       avatar:
         "https://images.unsplash.com/photo-1667506057200-e55b56ee2b44?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
     };
-    console.log(user);
+
     await http
       .put(`users/${userid}`, user)
       .then((res) => {
-        console.log(res);
+        toast.success("success");
       })
       .catch((err) => {
         console.log(err);
       });
   };
   const handleRoleType = (item) => {
-    setValue("roleId", item.id);
-    setRoleType(item.type);
+    setValue("roleId", item._id);
+    setRoleType(item.name);
   };
+
   return (
     <div className="p-8 w-full">
       <div className="flex flex-row items-center gap-8">
         <div className="w-20 h-20">
           <img
-            src={user.avatar}
+            src={user?.avatar}
             alt=""
             className="w-full h-full object-cover rounded-full"
           />
         </div>
-        <h1 className="font-bold text-2xl text-primary">{user.fullName}</h1>
+        <h1 className="font-bold text-2xl text-primary">{user?.fullName}</h1>
         <div className="ml-auto">
           <Button
             onClick={() => {
@@ -219,9 +219,9 @@ const UserDetailPage = () => {
                 edit={edit}
               ></Select>
               <List>
-                {roleData.map((item) => (
-                  <Option key={item.id} onClick={() => handleRoleType(item)}>
-                    {item.type}
+                {roles?.map((item) => (
+                  <Option key={item._id} onClick={() => handleRoleType(item)}>
+                    {item.name}
                   </Option>
                 ))}
               </List>

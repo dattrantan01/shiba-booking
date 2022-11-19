@@ -7,14 +7,14 @@ const AuthProvider = (props) => {
   const [user, setUser] = useState({});
   const value = { user, setUser };
   useEffect(() => {
-    // http
-    //   .get("/me")
-    //   .then((res) => {
-    //     setUser(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    http
+      .get("/me")
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
   return <AuthContext.Provider {...props} value={value}></AuthContext.Provider>;
 };
