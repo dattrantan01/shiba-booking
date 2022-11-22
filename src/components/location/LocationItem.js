@@ -9,6 +9,7 @@ const LocationItem = ({
   address,
   id,
   handleDeleteLocation,
+  imgUrl,
 }) => {
   const navigate = useNavigate();
   return (
@@ -18,14 +19,14 @@ const LocationItem = ({
         onClick={() => navigate(`/locations/detail/${id}`)}
       >
         <img
-          src="https://images.unsplash.com/photo-1665833967684-8a89a61a1883?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+          src={imgUrl}
           alt=""
-          className="w-full h-full object-cove rounded-2xl"
+          className="w-full h-full object-cover rounded-2xl"
         />
       </div>
       <div className="flex w-full h-[150px] flex-col px-1 py-1">
         <h2 className="text-xl font-semibold">{name} </h2>
-        <p className="text-sm font-light text-slate-600">{address}</p>
+        <p className="text-sm font-medium text-slate-600">{address}</p>
         <p className="">{description}</p>
         <div className="flex flex-row w-full justify-end gap-2 mt-auto">
           <Button

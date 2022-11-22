@@ -6,7 +6,6 @@ import LocationPage from "./module/location/LocationPage";
 import LocationUpdatePage from "./module/location/LocationUpdatePage";
 
 import AddUserPage from "./module/user/AddUserPage";
-import BusinessPage from "./pages/BusinessPage";
 import HomePage from "./pages/HomePage";
 import LocationDetail from "./pages/LocationDetail";
 
@@ -15,6 +14,8 @@ import UserDetailPage from "./module/user/UserDetailPage";
 import UsersPage from "./module/user/UsersPage";
 import AddBusinessPage from "./module/business/AddBusinessPage";
 import BusinessUpdatePage from "./module/business/BusinessUpdatePage";
+
+import Business from "./module/business/Business";
 
 function App() {
   return (
@@ -36,7 +37,8 @@ function App() {
             <Route path="/users" element={<UsersPage />}></Route>
             <Route path="/users/:userid" element={<UserDetailPage />}></Route>
             <Route path="/users-add/" element={<AddUserPage />}></Route>
-            <Route path="/businesses" element={<BusinessPage />}></Route>
+
+            <Route path="/businesses" element={<Business />}></Route>
             <Route
               path="/businesses/:businessId"
               element={<BusinessUpdatePage />}

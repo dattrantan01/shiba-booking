@@ -10,16 +10,19 @@ const items = [
     icon: <MdOutlineMapsHomeWork></MdOutlineMapsHomeWork>,
     title: "Locations",
     path: "/locations",
+    role: "",
   },
   {
     icon: <HiOutlineUsers></HiOutlineUsers>,
     title: "Users",
     path: "/users",
+    role: "SUPER_ADMIN",
   },
   {
     icon: <MdOutlineBusinessCenter></MdOutlineBusinessCenter>,
     title: "Business",
     path: "/businesses",
+    role: "",
   },
 ];
 
@@ -59,7 +62,7 @@ const Sidebar = () => {
         </div>
         <div className="flex flex-col text-slate-600">
           <span className="font-semibold">{user?.fullName}</span>
-          <span className="text-sm">Admin</span>
+          <span className="text-sm">{user?.role?.name.replace("_", " ")}</span>
         </div>
       </div>
     </div>

@@ -21,11 +21,7 @@ const BusinessUpdatePage = () => {
         .string()
         .email("Please enter valid email address")
         .required("Please enter your email address"),
-      phone: yup
-        .number("Must be number")
-        .typeError("Must be a number")
-        .required("Please enter your phone number")
-        .min(8),
+      pphone: yup.string().matches(/^\d+$/, "Phone must be number"),
     })
     .required();
   const {

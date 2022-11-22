@@ -56,7 +56,7 @@ const AddLocationPage = () => {
 
   useEffect(() => {
     http.get(`locations/cities`).then((res) => {
-      console.log("cities", res);
+      // console.log("cities", res);
       setCites(res?.data);
     });
   }, []);
@@ -88,7 +88,7 @@ const AddLocationPage = () => {
     for (let i = 0; i < utilities.length; i++) {
       const name = getValues(`${utilities[i].name}`);
       const price = getValues(`${utilities[i].price}`);
-      console.log(name, price);
+      // console.log(name, price);
       if (!name || !price || isNaN(price)) {
         checkError = !checkError;
         break;
@@ -114,8 +114,9 @@ const AddLocationPage = () => {
       isActive: value.active,
       description: value.desc,
       utilities: utilitiesAdd,
+      img: null,
     };
-    console.log(locationAdd);
+    // console.log(locationAdd);
     http
       .post("locations", locationAdd)
       .then((res) => {
@@ -198,6 +199,7 @@ const AddLocationPage = () => {
               Active
             </Toggle>
           </div>
+
           <div className="flex flex-col gap-5">
             <div>
               <h2 className="font-semibold text-xl text-primary mb-5">

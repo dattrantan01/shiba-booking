@@ -7,7 +7,7 @@ import Label from "../components/label/Label";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { NavLink, useNavigate } from "react-router-dom";
-import axios from "axios";
+
 import http from "../config/axiosConfig";
 import { useAuth } from "../context/auth-context";
 
@@ -37,7 +37,7 @@ const LoginPage = () => {
     },
   });
   const navigate = useNavigate();
-  const { user, setUser } = useAuth();
+  const { setUser } = useAuth();
   const onSubmit = (e) => {
     console.log(e);
     login(e);
@@ -49,9 +49,12 @@ const LoginPage = () => {
       .then((res) => {
         console.log("login success: ", res);
         localStorage.setItem("token", res.data.token);
-
-        setUser(res.data.user);
-        navigate("/");
+      })
+      .then(() => {
+        http.get("/me").then((resUser) => {
+          setUser(resUser.data);
+          navigate("/");
+        });
       })
       .catch((err) => {
         console.log("error: ", err);

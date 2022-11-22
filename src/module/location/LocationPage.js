@@ -10,8 +10,8 @@ const LocationPage = () => {
   const navigate = useNavigate();
   const [locations, setLocations] = useState([]);
   const getLocations = () => {
-    http.get(`locations/1/business`).then((res) => {
-      // console.log(res);
+    http.get(`locations/business`).then((res) => {
+      console.log(res);
       setLocations(res.data);
     });
   };
@@ -55,6 +55,7 @@ const LocationPage = () => {
               description={location.description}
               address={address}
               id={location.id}
+              imgUrl={location.imgUrl}
               handleDeleteLocation={handleDeleteLocation}
             />
           );

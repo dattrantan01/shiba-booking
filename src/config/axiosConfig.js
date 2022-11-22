@@ -4,11 +4,10 @@ import { toast } from "react-toastify";
 class Http {
   constructor() {
     this.instance = axios.create({
-      baseURL: "http://192.168.10.41:3000/api/v1/",
+      // baseURL: "http://192.168.10.41:3000/api/v1/",
       // baseURL: "https://userservice-prod-pbl-kcbkvz.mo4.mogenius.io/api/v1/",
-
       // baseURL: "https://shiba-booking-prod-pbl-tpsota.mo5.mogenius.io/api/booking/",
-      // baseURL: "https://shibabooking.herokuapp.com/api/booking/",
+      baseURL: "https://shibabooking.herokuapp.com/api/booking/",
       timeout: 10000,
       headers: {
         "Content-Type": "application/json",

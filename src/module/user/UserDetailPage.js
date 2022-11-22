@@ -113,6 +113,19 @@ const UserDetailPage = () => {
       .catch((err) => {
         console.log(err);
       });
+
+    await http.get(`users/${userid}`).then((res) => {
+      setUser(res.data);
+      reset({
+        email: res?.data?.email,
+        firstName: res?.data?.firstName,
+        lastName: res?.data?.lastName,
+        phone: res?.data?.phone,
+        gender: res?.data?.gender === "Female" ? 2 : 1,
+        roleId: res?.data?.role.id,
+      });
+      setRoleType(res?.data?.role.name);
+    });
   };
   const handleRoleType = (item) => {
     setValue("roleId", item._id);

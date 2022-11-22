@@ -9,6 +9,7 @@ import Toggle from "../../components/toggle/Toggle";
 import Button from "../../components/button/Button";
 import { toast } from "react-toastify";
 import http from "../../config/axiosConfig";
+import { useNavigate } from "react-router-dom";
 
 const AddBusinessPage = () => {
   const schema = yup
@@ -18,11 +19,8 @@ const AddBusinessPage = () => {
         .string()
         .email("Please enter valid email address")
         .required("Please enter your email address"),
-      phone: yup
-        .number("Must be number")
-        .typeError("Must be a number")
-        .required("Please enter your phone number")
-        .min(8),
+
+      phone: yup.string().matches(/^\d+$/, "Phone must be number"),
     })
     .required();
   const {
@@ -42,6 +40,7 @@ const AddBusinessPage = () => {
     },
   });
   const watchActive = watch("active");
+  const navigate = useNavigate();
   useEffect(() => {
     const errorsList = Object.values(errors);
     if (errorsList.length > 0) {
@@ -52,8 +51,11 @@ const AddBusinessPage = () => {
     console.log("values", values);
     http
       .post("businesses", {
-        ...values,
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
         isActive: values.active,
+        // userId:
       })
       .then((response) => {
         console.log(response);
@@ -64,7 +66,9 @@ const AddBusinessPage = () => {
           phone: "",
           active: true,
         });
-      });
+        navigate("/businesses");
+      })
+      .catch((err) => toast.err("failed"));
   };
   return (
     <div className="p-8 w-full">
@@ -85,6 +89,7 @@ const AddBusinessPage = () => {
           <Label name="phone">Phone Number</Label>
           <Input control={control} name="phone" type="text"></Input>
         </Field>
+
         <div class="mb-7">
           <Toggle name="active" control={control} checked={watchActive}>
             Active

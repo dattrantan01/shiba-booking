@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -10,6 +10,11 @@ import Radio from "../../components/radio/Radio";
 import { toast } from "react-toastify";
 import http from "../../config/axiosConfig";
 import { useNavigate } from "react-router-dom";
+import Dropdown from "../../components/dropdown/Dropdown";
+import Select from "../../components/dropdown/Select";
+import List from "../../components/dropdown/List";
+import { useAuth } from "../../context/auth-context";
+import Option from "../../components/dropdown/Option";
 
 const schema = yup.object({
   email: yup
@@ -29,6 +34,7 @@ const AddUserPage = () => {
   const {
     handleSubmit,
     control,
+    setValue,
     getValues,
     formState: { errors },
     watch,
@@ -42,17 +48,33 @@ const AddUserPage = () => {
       phone: "",
       password: "",
       gender: 1,
+      businessId: "",
     },
   });
   const navigate = useNavigate();
+  const { user } = useAuth();
   const watchGender = watch("gender");
   const watchpasswordConfirm = watch("passwordConfirm");
+  const [businesses, setBusinesses] = useState([]);
+  const [businessesSelect, setBusinessesSelect] = useState("");
+
   useEffect(() => {
     const errorsList = Object.values(errors);
     if (errorsList.length > 0) {
       toast.error(errorsList[0]?.message);
     }
   }, [errors]);
+
+  useEffect(() => {
+    http
+      .get("businesses")
+      .then((res) => {
+        setBusinesses(res.data?.rows);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const onSubmit = async (values) => {
     const user = {
@@ -62,6 +84,7 @@ const AddUserPage = () => {
       gender: values.gende === 1 ? false : true,
       password: values.password,
       phone: values.phone,
+      businessId: values.businessId,
       roleId: "636723c71f1cbcef36804e82",
       avatar:
         "https://images.unsplash.com/photo-1667506057200-e55b56ee2b44?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
@@ -75,6 +98,10 @@ const AddUserPage = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+  const handleClickBusiness = (item) => {
+    setBusinessesSelect(item.email);
+    setValue("businessId", item.id);
   };
   return (
     <div className="p-8 w-full">
@@ -166,6 +193,23 @@ const AddUserPage = () => {
               Female
             </Radio>
           </div>
+        </Field>
+        <Field>
+          <Label>Business Email</Label>
+          <Dropdown>
+            <Select placeholder={businessesSelect || "Business Email"}></Select>
+            <List>
+              {businesses.length > 0 &&
+                businesses.map((item) => (
+                  <Option
+                    key={item.id}
+                    onClick={() => handleClickBusiness(item)}
+                  >
+                    {item.email}
+                  </Option>
+                ))}
+            </List>
+          </Dropdown>
         </Field>
 
         <div className="button-container">

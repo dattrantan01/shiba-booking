@@ -68,3 +68,13 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+// super admin: crud local user(create mac dinh la local), crud business
+// add business -> them localID (dropdown)
+// super admin -> k co businessID
+
+//Local_admin
+// bấm vô business là trang detail update
+// CRUD client user (role mac dinh la client) va co businessID
+
+//room detail
