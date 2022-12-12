@@ -24,6 +24,12 @@ const items = [
     path: "/businesses",
     role: "",
   },
+  {
+    icon: <MdOutlineBusinessCenter></MdOutlineBusinessCenter>,
+    title: "Subscriptions",
+    path: "/subscriptions",
+    role: "",
+  },
 ];
 
 const Sidebar = () => {

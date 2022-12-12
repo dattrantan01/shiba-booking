@@ -44,3 +44,40 @@
   width: 1px;
   white-space: nowrap;
 }
+.datePickerWrapper p {
+  margin: 0;
+  padding-left: 5px;
+  color: #1e8489;
+}
+
+.date_picker_wrapper {
+  /* margin-left: 0; */
+  width: 190px;
+  border: 1px solid #dddee6;
+  border-radius: 5px;
+  display: flex;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.date_picker_wrapper input:hover,
+.date_picker_wrapper:hover {
+  background-color: #dae0e6;
+}
+
+.date_picker_wrapper span {
+  /* border: 1px solid black; */
+  /* display: inline; */
+  margin-right: 5px;
+  margin-top: 2px;
+}
+
+.date_picker_wrapper input {
+  /* border: 1px solid black; */
+  width: 150px;
+  padding: 10px 10px;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  /* border-radius: 3px; */
+}

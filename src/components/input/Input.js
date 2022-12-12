@@ -15,7 +15,7 @@ const Input = ({ name, type = "text", control, edit = false, ...props }) => {
       className={`w-full px-3 py-2 rounded-md outline-none  ${
         edit
           ? "border-transparent bg-transparent"
-          : "border-pink-200 bg-pink-50 focus:border-primary border"
+          : "border-slate-200 bg-slate-100 focus:border-red-400 border"
       }   `}
       {...field}
       {...props}

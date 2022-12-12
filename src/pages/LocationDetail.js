@@ -14,6 +14,7 @@ const LocationDetail = () => {
   const [showAddRoom, setShowAddRoom] = useState(false);
   const getDetailRoom = () => {
     http.get(`locations/${id}`).then((res) => {
+      console.log(res.data);
       setLocation(res.data);
     });
   };
@@ -25,6 +26,7 @@ const LocationDetail = () => {
           name: room.name,
           capacity: room.capacity,
           price: room.price,
+          availableDay: room.availableDay?.slice(0, 10) || "",
         };
       });
       setRooms(listRoom);
@@ -35,10 +37,10 @@ const LocationDetail = () => {
     getListRoom();
   }, [id]);
 
-  const head = ["Name", "Capacity", "Price"];
+  const head = ["Name", "Capacity", "Price", "Start Date"];
   const handleDelete = async (id) => {
     if (!location) return;
-    http.get(`locations/${location.id}/rooms/${id}`, {}).then((res) => {
+    http.get(`rooms/${id}`, {}).then((res) => {
       console.log(res);
       toast.success("Success");
       getListRoom();
@@ -54,7 +56,7 @@ const LocationDetail = () => {
         <div className="flex flex-row gap-8">
           <div className="w-[250px] min-w-[250px] h-[250px] ">
             <img
-              src="https://images.unsplash.com/photo-1667747720016-2adde2c97e2b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=436&q=80"
+              src={location?.imgUrl}
               alt=""
               className="w-full h-full object-cover shadow-2xl"
             />
@@ -64,7 +66,8 @@ const LocationDetail = () => {
             <div className="text-xl grid grid-cols-5 gap-4">
               <span className="font-bold">Address: </span>
               <span className="font-medium text-slate-600 col-span-4">
-                {`${location?.address}, ${location?.wards}, ${location?.district}, ${location?.city}`}
+                {location &&
+                  `${location?.address}, ${location?.wards}, ${location?.district}, ${location?.city}`}
               </span>
 
               <span className="font-bold">Description: </span>
@@ -78,7 +81,12 @@ const LocationDetail = () => {
           </div>
         </div>
         <div className="mt-12">
-          <Table handleDelete={handleDelete} data={rooms} head={head}></Table>
+          <Table
+            handleDelete={handleDelete}
+            linkTo={"/room/"}
+            data={rooms}
+            head={head}
+          ></Table>
         </div>
       </div>
       {showAddRoom && (

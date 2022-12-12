@@ -70,6 +70,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 // super admin: crud local user(create mac dinh la local), crud business
+//users/admin
 // add business -> them localID (dropdown)
 // super admin -> k co businessID
 
@@ -78,3 +79,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 // CRUD client user (role mac dinh la client) va co businessID
 
 //room detail
+upload image
+add room change locationId
+delete room change check
+
+//client
+//users/client

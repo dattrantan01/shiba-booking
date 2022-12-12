@@ -16,6 +16,11 @@ import AddBusinessPage from "./module/business/AddBusinessPage";
 import BusinessUpdatePage from "./module/business/BusinessUpdatePage";
 
 import Business from "./module/business/Business";
+import RoomDetail from "./module/location/RoomDetail";
+import ForgotPassword from "./pages/ForgotPassword";
+import SubscriptionPage from "./module/subscription/SubscriptionPage";
+import AddSubscriptionPage from "./module/subscription/AddSubscriptionPage";
+import Subscription from "./module/subscription/Subscription";
 
 function App() {
   return (
@@ -34,11 +39,18 @@ function App() {
               path="/locations/detail/:id"
               element={<LocationDetail />}
             ></Route>
+            <Route path="/room/:id" element={<RoomDetail />}></Route>
+
             <Route path="/users" element={<UsersPage />}></Route>
             <Route path="/users/:userid" element={<UserDetailPage />}></Route>
             <Route path="/users-add/" element={<AddUserPage />}></Route>
 
             <Route path="/businesses" element={<Business />}></Route>
+            <Route path="/subscriptions" element={<Subscription />}></Route>
+            <Route
+              path="/subscription-add"
+              element={<AddSubscriptionPage />}
+            ></Route>
             <Route
               path="/businesses/:businessId"
               element={<BusinessUpdatePage />}
@@ -46,6 +58,7 @@ function App() {
             <Route path="/business-add" element={<AddBusinessPage />}></Route>
           </Route>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password/:id" element={<ForgotPassword />} />
         </Routes>
       </AuthProvider>
     </>

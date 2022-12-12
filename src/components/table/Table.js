@@ -10,6 +10,7 @@ const Table = ({
   handleDelete,
   page = 1,
   isLoading = false,
+  watchOnly = false,
 }) => {
   const navigate = useNavigate();
 
@@ -31,7 +32,7 @@ const Table = ({
                   </th>
                 );
               })}
-            <th></th>
+            {!watchOnly && <th></th>}
           </tr>
         </thead>
         {!isLoading && (
@@ -54,19 +55,21 @@ const Table = ({
                           </td>
                         );
                       })}
-                    <td>
-                      <div className="flex flex-row w-full justify-end gap-2 mt-auto">
-                        <Button
-                          styleClass="bg-secondary"
-                          onClick={() => navigate(`${linkTo}${item.id}`)}
-                        >
-                          <AiOutlineEdit />
-                        </Button>
-                        <Button onClick={() => handleDelete(item.id)}>
-                          <AiOutlineDelete />
-                        </Button>
-                      </div>
-                    </td>
+                    {!watchOnly && (
+                      <td>
+                        <div className="flex flex-row w-full justify-end gap-2 mt-auto">
+                          <Button
+                            styleClass="bg-secondary"
+                            onClick={() => navigate(`${linkTo}${item.id}`)}
+                          >
+                            <AiOutlineEdit />
+                          </Button>
+                          <Button onClick={() => handleDelete(item.id)}>
+                            <AiOutlineDelete />
+                          </Button>
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 );
               })}

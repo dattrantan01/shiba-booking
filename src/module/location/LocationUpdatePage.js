@@ -16,6 +16,8 @@ import { AiFillMinusCircle } from "react-icons/ai";
 import useUtilities from "../../hooks/useUtilities";
 import http from "../../config/axiosConfig";
 import { useParams } from "react-router-dom";
+import useUploadImage from "../../hooks/useUploadImage";
+import UploadImage from "../../components/uploadImage/UploadImage";
 
 const LocationUpdatePage = () => {
   const param = useParams();
@@ -49,7 +51,7 @@ const LocationUpdatePage = () => {
       desc: "",
     },
   });
-  const [locationInfo, setLocationInfo] = useState();
+
   const [cities, setCites] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -58,6 +60,14 @@ const LocationUpdatePage = () => {
   const [wardsName, setWardsName] = useState("");
   const { utilities, handleAddUtility, handleClearUtility, setUtilities } =
     useUtilities(unregister);
+  const {
+    handleUploadImage,
+    handleDeleteImage,
+    file,
+    imgUpload,
+    setFile,
+    setImgUpload,
+  } = useUploadImage();
 
   const watchActive = watch("active");
 
@@ -72,6 +82,9 @@ const LocationUpdatePage = () => {
         active: res?.data.isActive,
         desc: res?.data.description,
       });
+      console.log(res.data);
+      setFile(res?.data.imgUrl);
+      setImgUpload(res?.data.imgId);
       const utilityResponses = [];
       res?.data.utilityResponses.forEach((item, index) => {
         utilityResponses.push({
@@ -146,6 +159,7 @@ const LocationUpdatePage = () => {
       isActive: value.active,
       description: value.desc,
       utilities: utilitiesAdd,
+      ImgId: imgUpload,
     };
     console.log(locationAdd);
     http
@@ -226,6 +240,13 @@ const LocationUpdatePage = () => {
                 {...register("desc")}
               ></textarea>
             </Field>
+
+            <UploadImage
+              file={file}
+              imgUpload={imgUpload}
+              handleUploadImage={handleUploadImage}
+              handleDeleteImage={handleDeleteImage}
+            />
             <Toggle name="active" checked={watchActive} control={control}>
               Active
             </Toggle>
