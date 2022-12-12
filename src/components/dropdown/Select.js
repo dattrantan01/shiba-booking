@@ -6,7 +6,7 @@ const Select = ({ placeholder = "", edit = false }) => {
   return (
     <div
       className={`flex items-center justify-between px-3 py-2 ${
-        edit ? "bg-transparent" : "bg-pink-50"
+        edit ? "bg-transparent" : "bg-slate-200"
       }  rounded cursor-pointer font-medium`}
       onClick={edit ? null : toggle}
     >

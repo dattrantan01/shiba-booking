@@ -35,21 +35,40 @@ const BusinessLocalPage = () => {
       phone: "",
     },
   });
+
+  const businessId = user.businesses && user.businesses[0].id;
   useEffect(() => {
-    if (!user) return;
-    http.get(`businesses/${user.businessId}`).then((res) => {
-      console.log("local business: " + res);
-    });
-  }, [user]);
+    if (!businessId) return;
+    http
+      .get(`businesses/${businessId}`)
+      .then((res) => {
+        reset({
+          name: res.data.name,
+          email: res.data.email,
+          phone: res.data.phone,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [businessId]);
   useEffect(() => {
     const errorsList = Object.values(errors);
     if (errorsList.length > 0) {
       toast.error(errorsList[0]?.message);
     }
   }, [errors]);
-
+  console.log(edit);
   const handeUpdateBusiness = (values) => {
-    console.log(values);
+    http
+      .put(`businesses/${businessId}`, values)
+      .then((res) => {
+        toast.success("Success");
+        setEdit(true);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   return (

@@ -25,6 +25,7 @@ const BusinessPage = () => {
             name: item.name,
             email: item.email,
             phone: item.phone,
+            endTime: item.endTime.slice(0, 10),
             active: item.isActive,
           };
           return user;
@@ -60,7 +61,7 @@ const BusinessPage = () => {
     if (page >= pageCount) return;
     setPage(page + 1);
   };
-  const head = ["Name", "Email", "Phone number", "Active"];
+  const head = ["Name", "Email", "Phone number", "End Time", "Active"];
   return (
     <div className="w-full px-5 pt-8">
       <div className="flex flex-row justify-between">

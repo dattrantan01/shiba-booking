@@ -15,6 +15,8 @@ import { toast } from "react-toastify";
 import { AiFillMinusCircle } from "react-icons/ai";
 import useUtilities from "../../hooks/useUtilities";
 import http from "../../config/axiosConfig";
+import UploadImage from "../../components/uploadImage/UploadImage";
+import useUploadImage from "../../hooks/useUploadImage";
 
 const AddLocationPage = () => {
   const schema = yup
@@ -54,9 +56,11 @@ const AddLocationPage = () => {
     useUtilities(unregister);
   const watchActive = watch("active");
 
+  const { handleUploadImage, handleDeleteImage, file, imgUpload } =
+    useUploadImage();
+
   useEffect(() => {
     http.get(`locations/cities`).then((res) => {
-      // console.log("cities", res);
       setCites(res?.data);
     });
   }, []);
@@ -88,7 +92,6 @@ const AddLocationPage = () => {
     for (let i = 0; i < utilities.length; i++) {
       const name = getValues(`${utilities[i].name}`);
       const price = getValues(`${utilities[i].price}`);
-      // console.log(name, price);
       if (!name || !price || isNaN(price)) {
         checkError = !checkError;
         break;
@@ -114,9 +117,9 @@ const AddLocationPage = () => {
       isActive: value.active,
       description: value.desc,
       utilities: utilitiesAdd,
-      img: null,
+      ImgId: imgUpload,
     };
-    // console.log(locationAdd);
+    console.log(locationAdd);
     http
       .post("locations", locationAdd)
       .then((res) => {
@@ -125,6 +128,9 @@ const AddLocationPage = () => {
       })
       .catch((err) => console.error("err", err));
   };
+  useEffect(() => {
+    return () => handleDeleteImage();
+  }, []);
 
   return (
     <div className="p-8 w-full">
@@ -198,6 +204,47 @@ const AddLocationPage = () => {
             <Toggle name="active" checked={watchActive} control={control}>
               Active
             </Toggle>
+
+            {/* <div className="mt-8 mb-8 relative w-[350px] h-[280px]">
+              <div className="w-full h-full border-slate-300 border shadow-md cursor-pointer relative flex items-center justify-center">
+                {file ? (
+                  <>
+                    <div
+                      onClick={handleDeleteImage}
+                      className="absolute top-0 left-0 w-full h-full hover:bg-black hover:bg-opacity-30 z-20 flex justify-center items-center"
+                    >
+                      <div className="text-transparent font-semibold text-lg hover:text-white w-full h-full flex items-center justify-center">
+                        Choose another picture
+                      </div>
+                    </div>
+                    <img
+                      src={file}
+                      alt=""
+                      className="w-[350px] h-[280px] object-cover"
+                    />
+                  </>
+                ) : (
+                  <label
+                    htmlFor="uploadImage"
+                    className="w-full h-full relative flex items-center justify-center cursor-pointer"
+                  >
+                    <MdPhotoCamera className="w-10 h-10 text-primary" />
+                    <input
+                      type="file"
+                      id="uploadImage"
+                      onChange={handleUploadImage}
+                      className="hidden"
+                    />
+                  </label>
+                )}
+              </div>
+            </div> */}
+            <UploadImage
+              file={file}
+              imgUpload={imgUpload}
+              handleUploadImage={handleUploadImage}
+              handleDeleteImage={handleDeleteImage}
+            />
           </div>
 
           <div className="flex flex-col gap-5">

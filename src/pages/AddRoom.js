@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Field from "../components/field/Field";
 import Input from "../components/input/Input";
@@ -9,6 +9,10 @@ import Button from "../components/button/Button";
 import http from "../config/axiosConfig";
 import { toast } from "react-toastify";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import useUploadImage from "../hooks/useUploadImage";
+import UploadImage from "../components/uploadImage/UploadImage";
+import "react-datetime/css/react-datetime.css";
+import DatePicker from "react-datetime";
 
 const schema = yup.object({
   name: yup.string().required("Please enter room name"),
@@ -16,10 +20,10 @@ const schema = yup.object({
   price: yup.string().required("Please enter room price"),
 });
 const AddRoom = ({ locationId, handleClose = () => {} }) => {
+  const [date, setDate] = useState();
   const {
     handleSubmit,
     control,
-    getValues,
     reset,
     formState: { errors },
   } = useForm({
@@ -31,14 +35,28 @@ const AddRoom = ({ locationId, handleClose = () => {} }) => {
       price: "",
     },
   });
+
+  const {
+    handleUploadImage,
+    handleDeleteImage,
+    file,
+    imgUpload,
+    setFile,
+    setImgUpload,
+  } = useUploadImage();
   const addRoom = (values) => {
+    const availableDay = date.toISOString();
+    const roomAdd = {
+      name: values.name,
+      locationId: locationId,
+      capacity: Number(values.capacity),
+      price: Number(values.price),
+      availableDay: availableDay,
+      imgId: imgUpload,
+    };
+    console.log(roomAdd);
     http
-      .post(`locations/${locationId}/rooms`, {
-        name: values.name,
-        businessId: 1,
-        capacity: values.capacity,
-        price: values.price,
-      })
+      .post(`rooms`, roomAdd)
       .then((res) => {
         console.log("addroom", res);
         reset({
@@ -46,6 +64,8 @@ const AddRoom = ({ locationId, handleClose = () => {} }) => {
           capacity: "",
           price: "",
         });
+        setFile("");
+        setImgUpload("");
         toast.success("Add new room success");
       })
       .catch((err) => {
@@ -54,8 +74,14 @@ const AddRoom = ({ locationId, handleClose = () => {} }) => {
   };
   return (
     <div className="position fixed z-20 left-0 top-0 w-full h-full bg-opacity-40 bg-black">
-      <div className="w-[400px] relative h-full bg-white ml-auto px-4 flex flex-col justify-center">
-        <form onSubmit={handleSubmit(addRoom)} className="">
+      <div className="w-[650px] relative h-full bg-white ml-auto px-4 flex flex-col justify-center overflow-y-auto">
+        <UploadImage
+          file={file}
+          imgUpload={imgUpload}
+          handleUploadImage={handleUploadImage}
+          handleDeleteImage={handleDeleteImage}
+        />
+        <form onSubmit={handleSubmit(addRoom)} className="max-w-[400px]">
           <Field>
             <Label name="name">Name</Label>
             <Input name="name" type="text" control={control}></Input>
@@ -68,6 +94,15 @@ const AddRoom = ({ locationId, handleClose = () => {} }) => {
             <Label name="price">Price</Label>
             <Input name="price" type="text" control={control}></Input>
           </Field>
+          <div className="date_picker_wrapper mb-5 ">
+            <DatePicker
+              onChange={(date) => setDate(date)}
+              dateFormat="YYYY-MM-DD"
+              value={date}
+              timeFormat={false}
+              wrapperClassName="datePicker"
+            />
+          </div>
           <Button type="submit">ADD</Button>
         </form>
         <div
