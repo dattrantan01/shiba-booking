@@ -30,7 +30,7 @@ const AddSubscriptionPage = () => {
 
   useEffect(() => {
     http
-      .get(`businesses`)
+      .get(`v1/businesses`)
       .then((res) => {
         setBusinesses(res.data?.rows);
       })
@@ -38,7 +38,7 @@ const AddSubscriptionPage = () => {
         console.log(err);
       });
     http
-      .get("packages")
+      .get("v1/packages")
       .then((res) => {
         setPackages(res.data?.rows);
       })
@@ -62,7 +62,7 @@ const AddSubscriptionPage = () => {
     if (!businessId) return;
     setIsLoading(true);
     http
-      .get(`subscriptions?businessId=${businessId}`)
+      .get(`v1/subscriptions?businessId=${businessId}`)
       .then((res) => {
         let endTime = res.data?.rows[0]?.endTime;
         if (!endTime) {
@@ -109,7 +109,7 @@ const AddSubscriptionPage = () => {
     };
     console.log(addSub);
     http
-      .post(`subscriptions`, addSub)
+      .post(`v1/subscriptions`, addSub)
       .then((res) => {
         toast.success("success");
         navigate("/subscriptions");

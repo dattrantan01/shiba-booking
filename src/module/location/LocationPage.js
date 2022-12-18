@@ -10,7 +10,7 @@ const LocationPage = () => {
   const navigate = useNavigate();
   const [locations, setLocations] = useState([]);
   const getLocations = () => {
-    http.get(`locations/business`).then((res) => {
+    http.get(`booking/locations/business`).then((res) => {
       console.log(res);
       setLocations(res.data);
     });
@@ -20,7 +20,7 @@ const LocationPage = () => {
   }, []);
 
   const handleDeleteLocation = (id) => {
-    http.delete(`/locations/${id}`).then((res) => {
+    http.delete(`booking/locations/${id}`).then((res) => {
       if (res.status === 200) {
         getLocations();
       }

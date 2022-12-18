@@ -50,7 +50,7 @@ const AddBusinessPage = () => {
   const onSubmit = (values) => {
     console.log("values", values);
     http
-      .post("businesses", {
+      .post("v1/businesses", {
         name: values.name,
         email: values.email,
         phone: values.phone,

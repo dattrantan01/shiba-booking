@@ -67,7 +67,7 @@ const AddUserPage = () => {
 
   useEffect(() => {
     http
-      .get("businesses")
+      .get("v1/businesses")
       .then((res) => {
         setBusinesses(res.data?.rows);
       })
@@ -81,7 +81,7 @@ const AddUserPage = () => {
       firstName: values.firstName,
       lastName: values.lastName,
       email: values.email,
-      gender: values.gende === 1 ? false : true,
+      gender: values.gender === 1 ? true : false,
       password: values.password,
       phone: values.phone,
       businessId: values.businessId,
@@ -91,7 +91,7 @@ const AddUserPage = () => {
     };
 
     await http
-      .post("users", user)
+      .post("v1/users", user)
       .then((res) => {
         navigate("/users");
       })

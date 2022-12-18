@@ -15,7 +15,7 @@ const SubscriptionLocalPage = () => {
   const businessId = user?.businesses[0].id;
   useEffect(() => {
     http
-      .get(`/subscriptions?businessId=${businessId}`)
+      .get(`v1/subscriptions?businessId=${businessId}`)
       .then((res) => {
         const list = res?.data?.rows?.map((item) => {
           const sub = {

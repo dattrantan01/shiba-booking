@@ -13,13 +13,13 @@ const LocationDetail = () => {
   const [location, setLocation] = useState();
   const [showAddRoom, setShowAddRoom] = useState(false);
   const getDetailRoom = () => {
-    http.get(`locations/${id}`).then((res) => {
+    http.get(`booking/locations/${id}`).then((res) => {
       console.log(res.data);
       setLocation(res.data);
     });
   };
   const getListRoom = () => {
-    http.post(`locations/${id}/rooms/all`, {}).then((res) => {
+    http.post(`booking/locations/${id}/rooms/all`, {}).then((res) => {
       const listRoom = res?.data?.map((room) => {
         return {
           id: room.id,
@@ -40,7 +40,7 @@ const LocationDetail = () => {
   const head = ["Name", "Capacity", "Price", "Start Date"];
   const handleDelete = async (id) => {
     if (!location) return;
-    http.get(`rooms/${id}`, {}).then((res) => {
+    http.get(`booking/rooms/${id}`, {}).then((res) => {
       console.log(res);
       toast.success("Success");
       getListRoom();

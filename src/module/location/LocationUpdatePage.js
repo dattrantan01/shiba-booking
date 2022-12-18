@@ -72,7 +72,7 @@ const LocationUpdatePage = () => {
   const watchActive = watch("active");
 
   useEffect(() => {
-    http.get(`locations/${id}`).then((res) => {
+    http.get(`booking/locations/${id}`).then((res) => {
       reset({
         name: res?.data.name,
         address: res?.data.address,
@@ -101,20 +101,20 @@ const LocationUpdatePage = () => {
       setDistrictName(res?.data.district);
       setWardsName(res?.data.wards);
     });
-    http.get(`locations/cities`).then((res) => {
+    http.get(`booking/locations/cities`).then((res) => {
       setCites(res?.data);
     });
   }, [id, reset, setValue, setUtilities]);
   const handleClickCity = async (city) => {
     setValue("city", city.id);
     setCityName(city.name);
-    const res = await http.get(`locations/cities/${city.id}`);
+    const res = await http.get(`booking/locations/cities/${city.id}`);
     setDistricts(res?.data);
   };
   const handleClickDistrict = async (district) => {
     setValue("district", district.id);
     setDistrictName(district.name);
-    const res = await http.get(`locations/districts/${district.id}`);
+    const res = await http.get(`booking/locations/districts/${district.id}`);
     setWards(res?.data);
   };
   const handleClickWard = (wards) => {
@@ -163,7 +163,7 @@ const LocationUpdatePage = () => {
     };
     console.log(locationAdd);
     http
-      .put(`locations`, locationAdd)
+      .put(`booking/locations`, locationAdd)
       .then((res) => {
         console.log(res);
         toast.success("success");

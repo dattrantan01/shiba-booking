@@ -40,7 +40,7 @@ const BusinessLocalPage = () => {
   useEffect(() => {
     if (!businessId) return;
     http
-      .get(`businesses/${businessId}`)
+      .get(`v1/businesses/${businessId}`)
       .then((res) => {
         reset({
           name: res.data.name,
@@ -61,7 +61,7 @@ const BusinessLocalPage = () => {
   console.log(edit);
   const handeUpdateBusiness = (values) => {
     http
-      .put(`businesses/${businessId}`, values)
+      .put(`v1/businesses/${businessId}`, values)
       .then((res) => {
         toast.success("Success");
         setEdit(true);

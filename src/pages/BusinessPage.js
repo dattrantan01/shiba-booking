@@ -17,7 +17,7 @@ const BusinessPage = () => {
   const getBusinessList = () => {
     setIsLoading(true);
     http
-      .get(`/businesses?page=${page}&&search=${search}`)
+      .get(`v1/businesses?page=${page}&&search=${search}`)
       .then((res) => {
         const list = res?.data?.rows?.map((item) => {
           const user = {
@@ -46,7 +46,7 @@ const BusinessPage = () => {
     setSearch(e.target.value);
   };
   const handleDelete = (id) => {
-    http.delete(`/businesses/${id}`).then((res) => {
+    http.delete(`v1/businesses/${id}`).then((res) => {
       if (res.status === 200) {
         toast.success("Delete success");
         getBusinessList();

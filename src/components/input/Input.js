@@ -11,6 +11,7 @@ const Input = ({ name, type = "text", control, edit = false, ...props }) => {
     <input
       type={type}
       id={name}
+      maxLength={35}
       readOnly={edit}
       className={`w-full px-3 py-2 rounded-md outline-none  ${
         edit
