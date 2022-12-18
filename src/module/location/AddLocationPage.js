@@ -46,13 +46,14 @@ const AddLocationPage = () => {
       active: true,
     },
   });
+  const [isLoading, setIsLoading] = useState(false);
   const [cities, setCites] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
   const [cityName, setCityName] = useState("");
   const [districtName, setDistrictName] = useState("");
   const [wardsName, setWardsName] = useState("");
-  const { utilities, handleAddUtility, handleClearUtility } =
+  const { utilities, handleAddUtility, handleClearUtility, isLoadingImage } =
     useUtilities(unregister);
   const watchActive = watch("active");
 
@@ -88,7 +89,7 @@ const AddLocationPage = () => {
   }, [errors]);
   const onSubmit = (value) => {
     let checkError = false;
-
+    setIsLoading(true);
     for (let i = 0; i < utilities.length; i++) {
       const name = getValues(`${utilities[i].name}`);
       const price = getValues(`${utilities[i].price}`);
@@ -125,8 +126,12 @@ const AddLocationPage = () => {
       .then((res) => {
         console.log(res);
         toast.success("success");
+        setIsLoading(false);
       })
-      .catch((err) => console.error("err", err));
+      .catch((err) => {
+        setIsLoading(false);
+        console.error("err", err);
+      });
   };
   useEffect(() => {
     return () => handleDeleteImage();
@@ -197,7 +202,7 @@ const AddLocationPage = () => {
               <textarea
                 id="desc"
                 name="desc"
-                className="w-full max-w-[500px] min-h-[200px] outline-none border border-pink-200 bg-pink-50 focus:border-primary rounded-xl p-4"
+                className="w-full max-w-[500px] min-h-[200px] outline-none border  bg-slate-100 focus:border-primary rounded-xl p-4"
                 {...register("desc")}
               ></textarea>
             </Field>
@@ -244,6 +249,7 @@ const AddLocationPage = () => {
               imgUpload={imgUpload}
               handleUploadImage={handleUploadImage}
               handleDeleteImage={handleDeleteImage}
+              isLoadingImage={isLoadingImage}
             />
           </div>
 
@@ -296,7 +302,9 @@ const AddLocationPage = () => {
           </div>
         </div>
         <div className="button-container mt-5">
-          <Button type="submit">Submit</Button>
+          <Button type="submit" isLoading={isLoading}>
+            Submit
+          </Button>
         </div>
       </form>
     </div>

@@ -43,12 +43,14 @@ const LoginPage = () => {
   const { setUser } = useAuth();
   const [checkMail, setCheckMail] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const onSubmit = (e) => {
     console.log(e);
     login(e);
   };
 
   function login(value) {
+    setIsLoading(true);
     http
       .post("v1/users/admin/login", value)
       .then((res) => {
@@ -58,6 +60,7 @@ const LoginPage = () => {
       .then(() => {
         http.get("v1/me").then((resUser) => {
           setUser(resUser.data);
+          setIsLoading(false);
           navigate("/");
         });
       })
@@ -65,6 +68,7 @@ const LoginPage = () => {
         if (err.data.message === "BusinessInactivated!")
           setShowErrorModal(true);
         toast.error(err.data.message);
+        setIsLoading(false);
         console.log("error: ", err);
       });
   }
@@ -129,7 +133,9 @@ const LoginPage = () => {
                 )}
               </Field>
               <div className="w-full flex justify-center pb-6">
-                <Button styleClass="w-[100%]">Sign In</Button>
+                <Button styleClass="w-[100%]" isLoading={isLoading}>
+                  Sign In
+                </Button>
               </div>
             </form>
             <div className="text-sm flex justify-center text-gray">

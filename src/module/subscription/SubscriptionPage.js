@@ -17,7 +17,7 @@ const SubscriptionPage = () => {
   const getUserList = () => {
     setIsLoading(true);
     http
-      .get(`/subscriptions?page=${page}`)
+      .get(`v1/subscriptions?page=${page}`)
       .then((res) => {
         console.log(res.data);
         const list = res?.data?.rows?.map((item) => {

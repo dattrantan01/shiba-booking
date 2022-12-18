@@ -19,26 +19,28 @@ const BusinessPage = () => {
     http
       .get(`v1/businesses?page=${page}&&search=${search}`)
       .then((res) => {
-        const list = res?.data?.rows?.map((item) => {
-          const user = {
+        console.log(res);
+        const listBusiness = res?.data?.rows?.map((item) => {
+          const bus = {
             id: item.id,
             name: item.name,
             email: item.email,
             phone: item.phone,
-            endTime: item.endTime.slice(0, 10),
+            endTime: item.endTime?.slice(0, 10),
             active: item.isActive,
           };
-          return user;
+          return bus;
         });
+        setBusinessList(listBusiness);
         setPageCount(Math.ceil(res?.data?.count / 6));
         setIsLoading(false);
-        setBusinessList(list);
       })
       .catch((err) => {
         console.log(err);
         setIsLoading(false);
       });
   };
+  console.log("businessList", businessList);
   useEffect(() => {
     getBusinessList();
   }, [page, search]);

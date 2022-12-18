@@ -7,8 +7,10 @@ import http from "../config/axiosConfig";
 export default function useUploadImage() {
   const [file, setFile] = useState();
   const [imgUpload, setImgUpload] = useState();
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
   const handleDeleteImage = () => {
     if (!file) return;
+    setIsLoadingImage(true);
     http
       .delete(`booking/photos`, {
         ImgId: imgUpload,
@@ -17,13 +19,16 @@ export default function useUploadImage() {
         console.log("delete Img", res);
         setFile("");
         setImgUpload(null);
+        setIsLoadingImage(false);
       })
       .catch((err) => {
         console.log("img err", err);
+        setIsLoadingImage(false);
       });
   };
 
   const handleUploadImage = (e) => {
+    setIsLoadingImage(true);
     const fileUpload = e.target.files[0];
     setFile(URL.createObjectURL(fileUpload));
     const formData = new FormData();
@@ -31,7 +36,8 @@ export default function useUploadImage() {
     const token = localStorage.getItem("token");
     axios
       .post(
-        "https://gateway-prod-gateway-0ix8cn.mo4.mogenius.io/api/booking/photos/upload",
+        "https://pbl6-prod-pbl-dspnq9.mo6.mogenius.io/api/booking/photos/upload",
+
         formData,
         {
           headers: {
@@ -43,9 +49,11 @@ export default function useUploadImage() {
         console.log(res);
         setImgUpload(res?.data.imgId);
         setFile(res?.data.imgUrl);
+        setIsLoadingImage(false);
       })
       .catch((err) => {
         console.log(err);
+        setIsLoadingImage(false);
       });
   };
   return {
@@ -55,5 +63,6 @@ export default function useUploadImage() {
     setFile,
     imgUpload,
     setImgUpload,
+    isLoadingImage,
   };
 }
