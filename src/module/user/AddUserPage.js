@@ -57,6 +57,7 @@ const AddUserPage = () => {
   const watchpasswordConfirm = watch("passwordConfirm");
   const [businesses, setBusinesses] = useState([]);
   const [businessesSelect, setBusinessesSelect] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const errorsList = Object.values(errors);
@@ -77,6 +78,7 @@ const AddUserPage = () => {
   }, []);
 
   const onSubmit = async (values) => {
+    setIsLoading(true);
     const user = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -94,9 +96,11 @@ const AddUserPage = () => {
       .post("v1/users", user)
       .then((res) => {
         navigate("/users");
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setIsLoading(false);
       });
   };
   const handleClickBusiness = (item) => {
@@ -213,7 +217,9 @@ const AddUserPage = () => {
         </Field>
 
         <div className="button-container">
-          <Button type="submit">Submit</Button>
+          <Button type="submit" isLoading={isLoading}>
+            Submit
+          </Button>
         </div>
       </form>
     </div>

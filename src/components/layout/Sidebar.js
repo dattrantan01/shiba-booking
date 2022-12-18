@@ -2,8 +2,9 @@ import React from "react";
 import { MdOutlineMapsHomeWork } from "react-icons/md";
 import { HiOutlineUsers } from "react-icons/hi";
 import { MdOutlineBusinessCenter } from "react-icons/md";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth-context";
+import { AiOutlineLogout } from "react-icons/ai";
 
 const items = [
   {
@@ -39,8 +40,15 @@ const items = [
 ];
 
 const Sidebar = () => {
-  const { user } = useAuth();
-
+  const { user, setUser } = useAuth();
+  const navigate = useNavigate();
+  const handleSignOut = () => {
+    localStorage.removeItem("token");
+    setUser({
+      id: "",
+    });
+    navigate("/login");
+  };
   return (
     <div className="w-[300px] h-full bg-backgroundSidebar shadow-lg flex flex-col pt-5  items-center text-slate-500">
       <div className="font-bungee text-xl text-primary ">Shiba booking</div>
@@ -75,6 +83,13 @@ const Sidebar = () => {
         <div className="flex flex-col text-slate-600">
           <span className="font-semibold">{user?.fullName}</span>
           <span className="text-sm">{user?.role?.name.replace("_", " ")}</span>
+        </div>
+        <div className="ml-auto">
+          {" "}
+          <AiOutlineLogout
+            onClick={handleSignOut}
+            className="text-2xl cursor-pointer"
+          />
         </div>
       </div>
     </div>

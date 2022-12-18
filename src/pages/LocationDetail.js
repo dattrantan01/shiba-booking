@@ -20,7 +20,8 @@ const LocationDetail = () => {
   };
   const getListRoom = () => {
     http.post(`booking/locations/${id}/rooms/all`, {}).then((res) => {
-      const listRoom = res?.data?.map((room) => {
+      console.log("list room", res);
+      const listRoom = res?.data?.response?.map((room) => {
         return {
           id: room.id,
           name: room.name,
