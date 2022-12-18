@@ -56,7 +56,7 @@ const AddRoom = ({ locationId, handleClose = () => {} }) => {
     };
     console.log(roomAdd);
     http
-      .post(`rooms`, roomAdd)
+      .post(`booking/rooms`, roomAdd)
       .then((res) => {
         console.log("addroom", res);
         reset({

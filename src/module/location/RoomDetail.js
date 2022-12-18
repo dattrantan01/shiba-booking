@@ -52,7 +52,7 @@ const RoomDetail = () => {
 
   useEffect(() => {
     http
-      .get(`rooms/${id}/detail`)
+      .get(`booking/rooms/${id}/detail`)
       .then((res) => {
         reset({
           name: res.data.name,
@@ -68,7 +68,7 @@ const RoomDetail = () => {
       .catch((err) => console.log(err));
 
     http
-      .get(`rooms/${id}/reviews`)
+      .get(`booking/rooms/${id}/reviews`)
       .then((res) => {
         setReviews(res.data);
       })
@@ -85,7 +85,7 @@ const RoomDetail = () => {
   const handleUpdateRoom = (values) => {
     const availableDay = new Date(date).toISOString();
     http
-      .put(`rooms/${id}`, {
+      .put(`booking/rooms/${id}`, {
         name: values.name,
         capacity: values.capacity,
         imgId: imgUpload,

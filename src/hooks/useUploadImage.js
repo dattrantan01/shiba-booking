@@ -10,7 +10,7 @@ export default function useUploadImage() {
   const handleDeleteImage = () => {
     if (!file) return;
     http
-      .delete(`photos`, {
+      .delete(`booking/photos`, {
         ImgId: imgUpload,
       })
       .then((res) => {
@@ -31,7 +31,7 @@ export default function useUploadImage() {
     const token = localStorage.getItem("token");
     axios
       .post(
-        "https://pbl6-prod-pbl-dspnq9.mo6.mogenius.io/api/booking/photos/upload",
+        "https://gateway-prod-gateway-0ix8cn.mo4.mogenius.io/api/booking/photos/upload",
         formData,
         {
           headers: {

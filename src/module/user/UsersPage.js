@@ -36,7 +36,7 @@ const UsersPage = () => {
     setIsLoading(true);
     http
       .get(
-        `/users?roleId=${roleID}&&businessId=${businessId}&&page=${page}&&search=${search}`
+        `v1/users?roleId=${roleID}&&businessId=${businessId}&&page=${page}&&search=${search}`
       )
       .then((res) => {
         const list = res?.data?.rows?.map((item) => {
@@ -65,7 +65,7 @@ const UsersPage = () => {
     getUserList();
   }, [page, user, search]);
   const handleDelete = (id) => {
-    http.delete(`/users/${id}`).then((res) => {
+    http.delete(`v1/users/${id}`).then((res) => {
       if (res.status === 200) {
         getUserList();
       }

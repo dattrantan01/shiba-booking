@@ -51,7 +51,7 @@ const BusinessUpdatePage = () => {
   useEffect(() => {
     if (!businessId) return;
     http
-      .get(`businesses/${businessId}`)
+      .get(`v1/businesses/${businessId}`)
       .then((res) => {
         reset({
           name: res.data?.name,
@@ -67,7 +67,7 @@ const BusinessUpdatePage = () => {
 
   const onSubmit = (values) => {
     http
-      .put(`businesses/${businessId}`, {
+      .put(`v1/businesses/${businessId}`, {
         id: businessId,
         name: values.name,
         email: values.email,

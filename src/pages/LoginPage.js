@@ -50,13 +50,13 @@ const LoginPage = () => {
 
   function login(value) {
     http
-      .post("users/admin/login", value)
+      .post("v1/users/admin/login", value)
       .then((res) => {
         console.log("login success: ", res);
         localStorage.setItem("token", res.data.token);
       })
       .then(() => {
-        http.get("/me").then((resUser) => {
+        http.get("v1/me").then((resUser) => {
           setUser(resUser.data);
           navigate("/");
         });
@@ -75,7 +75,7 @@ const LoginPage = () => {
     }
     setCheckMail(true);
     http
-      .post(`/reset-password`, {
+      .post(`v1/reset-password`, {
         email: getValues("email"),
       })
       .then((res) => {

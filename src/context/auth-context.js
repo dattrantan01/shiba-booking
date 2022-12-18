@@ -8,7 +8,7 @@ const AuthProvider = (props) => {
   const value = { user, setUser };
   useEffect(() => {
     http
-      .get("/me")
+      .get("v1/me")
       .then((res) => {
         setUser(res.data);
       })

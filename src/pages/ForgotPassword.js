@@ -40,7 +40,7 @@ const ForgotPassword = () => {
   const onSubmit = (values) => {
     console.log(values.password);
     http
-      .post(`reset-password/${id}`, {
+      .post(`v1/reset-password/${id}`, {
         password: values.password,
       })
       .then((res) => {

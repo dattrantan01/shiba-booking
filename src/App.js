@@ -21,6 +21,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import SubscriptionPage from "./module/subscription/SubscriptionPage";
 import AddSubscriptionPage from "./module/subscription/AddSubscriptionPage";
 import Subscription from "./module/subscription/Subscription";
+import BookingPage from "./module/booking/BookingPage";
+import BookingManagePage from "./module/booking/BookingManagePage";
 
 function App() {
   return (
@@ -56,6 +58,12 @@ function App() {
               element={<BusinessUpdatePage />}
             ></Route>
             <Route path="/business-add" element={<AddBusinessPage />}></Route>
+            <Route path="/booking" element={<BookingPage />}>
+              <Route
+                path="/booking/:status"
+                element={<BookingManagePage />}
+              ></Route>
+            </Route>
           </Route>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/forgot-password/:id" element={<ForgotPassword />} />

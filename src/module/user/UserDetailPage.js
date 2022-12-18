@@ -63,7 +63,7 @@ const UserDetailPage = () => {
   const watchpasswordConfirm = watch("passwordConfirm");
   useEffect(() => {
     http
-      .get(`users/${userid}`)
+      .get(`v1/users/${userid}`)
       .then((res) => {
         setUser(res.data);
         reset({
@@ -80,7 +80,7 @@ const UserDetailPage = () => {
   }, [userid, setUser, reset]);
   useEffect(() => {
     http
-      .get("roles")
+      .get("v1/roles")
       .then((res) => {
         setRoles(res?.data?.rows);
       })
@@ -106,7 +106,7 @@ const UserDetailPage = () => {
     };
 
     await http
-      .put(`users/${userid}`, user)
+      .put(`v1/users/${userid}`, user)
       .then((res) => {
         toast.success("success");
       })
@@ -114,7 +114,7 @@ const UserDetailPage = () => {
         console.log(err);
       });
 
-    await http.get(`users/${userid}`).then((res) => {
+    await http.get(`v1/users/${userid}`).then((res) => {
       setUser(res.data);
       reset({
         email: res?.data?.email,

@@ -8,7 +8,6 @@ module.exports = {
       bungee: ["Bungee", "sans-serif"],
     },
     colors: {
-      // primary: "#fb923c",
       primary: "#ff385c",
       secondary: "#FF9AAD",
       transparent: "transparent",
@@ -22,6 +21,8 @@ module.exports = {
       purple: colors.purple,
       gray: colors.gray,
       pink: colors.pink,
+      green: colors.green,
+      yellow: colors.yellow,
     },
     extend: {},
   },
