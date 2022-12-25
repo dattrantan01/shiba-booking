@@ -1,23 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineMapsHomeWork } from "react-icons/md";
 import { HiOutlineUsers } from "react-icons/hi";
 import { MdOutlineBusinessCenter } from "react-icons/md";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth-context";
 import { AiOutlineLogout } from "react-icons/ai";
+import { IoNotifications } from "react-icons/io5";
+import Notifications from "../noti/Notifications";
+import http from "../../config/axiosConfig";
+import RentBookingModal from "../../module/booking/RentBookingModal";
 
 const items = [
   {
     icon: <MdOutlineMapsHomeWork></MdOutlineMapsHomeWork>,
     title: "Locations",
     path: "/locations",
-    role: "",
+    role: "SUPER_ADMIN",
   },
   {
     icon: <HiOutlineUsers></HiOutlineUsers>,
     title: "Users",
     path: "/users",
-    role: "SUPER_ADMIN",
+    role: "",
   },
   {
     icon: <MdOutlineBusinessCenter></MdOutlineBusinessCenter>,
@@ -35,12 +39,17 @@ const items = [
     icon: <MdOutlineBusinessCenter></MdOutlineBusinessCenter>,
     title: "Booking",
     path: "/booking",
-    role: "",
+    role: "SUPER_ADMIN",
   },
 ];
 
 const Sidebar = () => {
   const { user, setUser } = useAuth();
+  const [count, setCount] = useState(0);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showModalDetailBooking, setShowModalDetailBooking] = useState(false);
+  const [bookingId, setBookingId] = useState();
   const navigate = useNavigate();
   const handleSignOut = () => {
     localStorage.removeItem("token");
@@ -49,13 +58,63 @@ const Sidebar = () => {
     });
     navigate("/login");
   };
+  useEffect(() => {
+    http.get(`booking/bookings/noti`).then((res) => {
+      setNotifications(res.data);
+      const countNoti = res.data?.reduce((accumulator, item) => {
+        let read = 0;
+        if (!item.isRead) read = 1;
+        return accumulator + read;
+      }, 0);
+      setCount(countNoti);
+    });
+  }, []);
+  useEffect(() => {
+    http.get(`booking/bookings/noti`).then((res) => {
+      setNotifications(res.data);
+      const countNoti = res.data?.reduce((accumulator, item) => {
+        let read = 0;
+        if (!item.isRead) read = 1;
+        return accumulator + read;
+      }, 0);
+      setCount(countNoti);
+    });
+  }, [showNotifications]);
+  const handleClickNoti = (item) => {
+    setShowModalDetailBooking(true);
+    setShowNotifications(false);
+    setBookingId(item.bookingId);
+    const read = item.isRead;
+    if (!read) {
+      http
+        .put(`booking/bookings/noti/${item.id}/isRead`)
+        .then((res) => {})
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
   return (
-    <div className="w-[300px] h-full bg-backgroundSidebar shadow-lg flex flex-col pt-5  items-center text-slate-500">
+    <div className="relative w-[300px] h-full bg-backgroundSidebar shadow-lg flex flex-col pt-5  items-center text-slate-500">
+      {showModalDetailBooking && (
+        <RentBookingModal
+          handleClose={() => setShowModalDetailBooking(false)}
+          bookingId={bookingId}
+        />
+      )}
+
+      {showNotifications && (
+        <Notifications
+          notifications={notifications}
+          handleClickNoti={handleClickNoti}
+        />
+      )}
       <NavLink to={"/"} className="font-bungee text-xl text-primary ">
         Shiba booking
       </NavLink>
       <div className="flex flex-col w-full items-center mt-10 px-3">
         {items.map((item) => {
+          if (user?.role?.name === item.role) return <></>;
           return (
             <NavLink
               to={item.path}
@@ -73,6 +132,24 @@ const Sidebar = () => {
             </NavLink>
           );
         })}
+        {user?.role?.name !== "SUPER_ADMIN" && (
+          <div
+            className={`w-full h-11 font-semibold cursor-pointer flex flex-row items-center justify-start pl-4  border-l-transparent border-l-4 gap-5 hover:text-primary ${
+              showNotifications ? "text-primary" : ""
+            }`}
+            onClick={() => setShowNotifications((prev) => !prev)}
+          >
+            <span className="text-2xl text-primay">
+              <IoNotifications />
+            </span>
+            <span>Notifications</span>
+            {count > 0 && (
+              <div className="w-4 h-4 rounded-full text-xs bg-red-500 text-white font-semibold flex items-center justify-center">
+                {count}
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <div className="user mt-auto w-full h-[70px] flex flew-row gap-3 items-center px-1 py-3 border-t-slate-300 border-t">
         <div className="w-11 h-11">
