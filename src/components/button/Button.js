@@ -7,7 +7,7 @@ const Button = ({ children, onClick, styleClass, isLoading = false }) => {
       onClick={onClick}
     >
       {isLoading ? (
-        <div className="w-9 h-9 border-8 rounded-full border-t-transparent animate-spin border-slate-300"></div>
+        <div className="w-9 h-9 border-8 rounded-full border-t-transparent animate-spin border-slate-300 mx-auto"></div>
       ) : (
         children
       )}

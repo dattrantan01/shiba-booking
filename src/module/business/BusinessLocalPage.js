@@ -75,7 +75,9 @@ const BusinessLocalPage = () => {
     <div className="p-8 w-full">
       <div className="flex flex-row justify-between items-center">
         <h1 className="font-bold text-2xl text-primary">Local Business</h1>
-        <Button onClick={() => setEdit(!edit)}>Edit</Button>
+        <Button onClick={() => setEdit(!edit)}>
+          {edit ? "Edit" : "Close"}
+        </Button>
       </div>
       <form onSubmit={handleSubmit(handeUpdateBusiness)}>
         <div className="w-full max-w-[800px] mt-8 mb-8">
@@ -94,7 +96,7 @@ const BusinessLocalPage = () => {
               type="text"
               name="email"
               control={control}
-              edit={edit}
+              edit={true}
             ></Input>
           </Field>
 

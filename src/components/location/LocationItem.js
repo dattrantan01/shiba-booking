@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../button/Button";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import DeleteModal from "../modal/DeleteModal";
 
 const LocationItem = ({
   name,
@@ -12,8 +13,21 @@ const LocationItem = ({
   imgUrl,
 }) => {
   const navigate = useNavigate();
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   return (
     <div className="locaion-item bg-white w-[360px] h-[400px] p-3 shadow-md rounded-2xl box-content">
+      {showDeleteModal && (
+        <DeleteModal
+          handleClose={() => setShowDeleteModal(false)}
+          handleDelete={() => {
+            handleDeleteLocation(id);
+            setShowDeleteModal(false);
+          }}
+          message={`Are you sure to delete this?`}
+        />
+      )}
+
       <div
         className="w-full h-[200px] cursor-pointer"
         onClick={() => navigate(`/locations/detail/${id}`)}
@@ -37,7 +51,7 @@ const LocationItem = ({
           >
             <AiOutlineEdit />
           </Button>
-          <Button onClick={() => handleDeleteLocation(id)}>
+          <Button onClick={() => setShowDeleteModal(true)}>
             <AiOutlineDelete />
           </Button>
         </div>

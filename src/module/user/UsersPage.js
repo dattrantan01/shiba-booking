@@ -5,6 +5,7 @@ import Table from "../../components/table/Table";
 import { useAuth } from "../../context/auth-context";
 import http from "../../config/axiosConfig";
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
+import { toast } from "react-toastify";
 
 const FAKE_ID = "6379e87618a1475fea259898";
 const UsersPage = () => {
@@ -39,15 +40,26 @@ const UsersPage = () => {
         `v1/users?roleId=${roleID}&&businessId=${businessId}&&page=${page}&&search=${search}`
       )
       .then((res) => {
+        console.log(res.data);
         const list = res?.data?.rows?.map((item) => {
-          const user = {
-            id: item.id,
-            fullname: item.fullName,
-            email: item.email,
-            phone: item.phone,
-            gender: item.gender,
-          };
-          return user;
+          const users =
+            user?.role.name === "SUPER_ADMIN"
+              ? {
+                  id: item.id,
+                  fullname: item.fullName,
+                  email: item.email,
+                  phone: item.phone,
+                  gender: item.gender,
+                  business: item?.businesses[0]?.email,
+                }
+              : {
+                  id: item.id,
+                  fullname: item.fullName,
+                  email: item.email,
+                  phone: item.phone,
+                  gender: item.gender,
+                };
+          return users;
         });
         setUserList(list);
         setPageCount(Math.ceil(res?.data?.count / 6));
@@ -67,6 +79,7 @@ const UsersPage = () => {
   const handleDelete = (id) => {
     http.delete(`v1/users/${id}`).then((res) => {
       if (res.status === 200) {
+        toast.success("delete success");
         getUserList();
       }
     });
@@ -80,7 +93,10 @@ const UsersPage = () => {
     setPage(page + 1);
   };
 
-  const head = ["Full name", "Email", "Phone number", "Gender"];
+  const head =
+    user?.role.name === "SUPER_ADMIN"
+      ? ["Full name", "Email", "Phone number", "Gender", "Business Email"]
+      : ["Full name", "Email", "Phone number", "Gender"];
   return (
     <div className="w-full px-5 pt-8">
       <div className="flex flex-row justify-between">
@@ -91,7 +107,7 @@ const UsersPage = () => {
           Add User
         </Button>
       </div>
-      <div className="w-full h-full max-w-[1200px] p-16">
+      <div className="w-full h-full max-w-[1400px] p-16">
         <div className="mb-3 flex justify-end">
           <input
             type="text"

@@ -98,7 +98,7 @@ const BusinessUpdatePage = () => {
         </Field>
         <Field>
           <Label name="email">Email</Label>
-          <Input control={control} name="email" type="text"></Input>
+          <Input control={control} name="email" type="text" readOnly></Input>
         </Field>
         <Field>
           <Label name="phone">Phone Number</Label>

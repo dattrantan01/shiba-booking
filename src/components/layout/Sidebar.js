@@ -51,7 +51,9 @@ const Sidebar = () => {
   };
   return (
     <div className="w-[300px] h-full bg-backgroundSidebar shadow-lg flex flex-col pt-5  items-center text-slate-500">
-      <div className="font-bungee text-xl text-primary ">Shiba booking</div>
+      <NavLink to={"/"} className="font-bungee text-xl text-primary ">
+        Shiba booking
+      </NavLink>
       <div className="flex flex-col w-full items-center mt-10 px-3">
         {items.map((item) => {
           return (

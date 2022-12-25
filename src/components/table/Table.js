@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import Button from "../button/Button";
+import DeleteModal from "../modal/DeleteModal";
 
 const Table = ({
   head,
@@ -13,11 +14,22 @@ const Table = ({
   watchOnly = false,
 }) => {
   const navigate = useNavigate();
-
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [id, setId] = useState();
   return (
     <div className="w-full overflow-x-auto shadow-md rounded-lg relative ">
       {isLoading && (
         <div className="w-10 h-10 border-8 inline-block border-t-transparent rounded-full border-red-500 animate-spin fixed z-20 top-[50%] left-[50%]"></div>
+      )}
+      {showDeleteModal && (
+        <DeleteModal
+          handleClose={() => setShowDeleteModal(false)}
+          handleDelete={() => {
+            handleDelete(id);
+            setShowDeleteModal(false);
+          }}
+          message={`Are you sure to delete this?`}
+        />
       )}
 
       <table className="w-full text-sm ">
@@ -57,14 +69,20 @@ const Table = ({
                       })}
                     {!watchOnly && (
                       <td>
-                        <div className="flex flex-row w-full justify-end gap-2 mt-auto">
+                        <div className="handle-button flex flex-row w-full justify-end gap-2 mt-auto">
                           <Button
                             styleClass="bg-secondary"
                             onClick={() => navigate(`${linkTo}${item.id}`)}
                           >
                             <AiOutlineEdit />
                           </Button>
-                          <Button onClick={() => handleDelete(item.id)}>
+
+                          <Button
+                            onClick={() => {
+                              setShowDeleteModal(true);
+                              setId(item.id);
+                            }}
+                          >
                             <AiOutlineDelete />
                           </Button>
                         </div>

@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import { AiFillMinusCircle } from "react-icons/ai";
 import useUtilities from "../../hooks/useUtilities";
 import http from "../../config/axiosConfig";
-import { useParams } from "react-router-dom";
+import { useNavigate, useNavigation, useParams } from "react-router-dom";
 import useUploadImage from "../../hooks/useUploadImage";
 import UploadImage from "../../components/uploadImage/UploadImage";
 
@@ -68,6 +68,7 @@ const LocationUpdatePage = () => {
     setFile,
     setImgUpload,
   } = useUploadImage();
+  const navigate = useNavigate();
 
   const watchActive = watch("active");
 
@@ -167,6 +168,7 @@ const LocationUpdatePage = () => {
       .then((res) => {
         console.log(res);
         toast.success("success");
+        navigate("/locations");
       })
       .catch((err) => console.error("err", err));
   };
@@ -236,7 +238,7 @@ const LocationUpdatePage = () => {
               <textarea
                 id="desc"
                 name="desc"
-                className="w-full max-w-[500px] min-h-[200px] outline-none border border-pink-200 bg-pink-50 focus:border-primary rounded-xl p-4"
+                className="w-full max-w-[500px] min-h-[200px] outline-none border border-slate-200 bg-slate-100 focus:border-primary rounded-xl p-4"
                 {...register("desc")}
               ></textarea>
             </Field>
