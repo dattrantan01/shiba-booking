@@ -229,7 +229,7 @@ const UserDetailPage = () => {
             <Dropdown>
               <Select
                 placeholder={roleType || "Role Type"}
-                edit={edit}
+                edit={true}
               ></Select>
               <List>
                 {roles?.map((item) => (

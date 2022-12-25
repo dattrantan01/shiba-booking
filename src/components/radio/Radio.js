@@ -1,7 +1,7 @@
 import React from "react";
 import { useController } from "react-hook-form";
 
-const Radio = ({ checked, children, control, name, ...rest }) => {
+const Radio = ({ checked, children, control, name, edit = false, ...rest }) => {
   const { field } = useController({
     control,
     name,
@@ -13,6 +13,7 @@ const Radio = ({ checked, children, control, name, ...rest }) => {
         checked={checked}
         type="radio"
         className="hidden-input"
+        disabled={edit}
         {...field}
         {...rest}
       />

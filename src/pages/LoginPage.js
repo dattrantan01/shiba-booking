@@ -138,19 +138,19 @@ const LoginPage = () => {
                 </Button>
               </div>
             </form>
-            <div className="text-sm flex justify-center text-gray">
-              <span className="inline-block mr-1">Don't have an account?</span>
+            <div className="text-sm flex justify-end text-gray">
+              {/* <span className="inline-block mr-1">Don't have an account?</span>
               <NavLink
                 to={"/register"}
                 className="font-semibold cursor-pointer"
               >
                 Sign up
-              </NavLink>
+              </NavLink> */}
               <span
                 onClick={forgotPassword}
                 className="cursor-pointer ml-3 hover:text-red-500"
               >
-                | forgot password
+                Forgot Password?
               </span>
             </div>
             {checkMail && (

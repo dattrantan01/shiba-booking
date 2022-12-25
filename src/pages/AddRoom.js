@@ -94,6 +94,7 @@ const AddRoom = ({ locationId, handleClose = () => {} }) => {
             <Label name="price">Price</Label>
             <Input name="price" type="text" control={control}></Input>
           </Field>
+          <Label>Available Date</Label>
           <div className="date_picker_wrapper mb-5 ">
             <DatePicker
               onChange={(date) => setDate(date)}
@@ -101,6 +102,8 @@ const AddRoom = ({ locationId, handleClose = () => {} }) => {
               value={date}
               timeFormat={false}
               wrapperClassName="datePicker"
+              closeOnSelect={true}
+              inputProps={{ readOnly: true }}
             />
           </div>
           <Button type="submit">ADD</Button>

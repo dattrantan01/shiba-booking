@@ -91,9 +91,9 @@ const AddBusinessPage = () => {
         </Field>
 
         <div class="mb-7">
-          <Toggle name="active" control={control} checked={watchActive}>
+          {/* <Toggle name="active" control={control} checked={watchActive}>
             Active
-          </Toggle>
+          </Toggle> */}
         </div>
         <Button type="submit">Submit</Button>
       </form>

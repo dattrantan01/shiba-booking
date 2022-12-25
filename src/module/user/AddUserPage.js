@@ -78,22 +78,27 @@ const AddUserPage = () => {
   }, []);
 
   const onSubmit = async (values) => {
-    setIsLoading(true);
-    const user = {
+    let businessID = values.businessId;
+    let role = "636723c71f1cbcef36804e82";
+    if (user?.role?.name === "LOCAL_ADMIN") {
+      businessID = user?.businesses[0]?.id;
+      role = "636723d347707eeadf80eb59";
+    }
+    const userAdd = {
       firstName: values.firstName,
       lastName: values.lastName,
       email: values.email,
       gender: values.gender === 1 ? true : false,
       password: values.password,
       phone: values.phone,
-      businessId: values.businessId,
-      roleId: "636723c71f1cbcef36804e82",
+      businessId: businessID,
+      roleId: role,
       avatar:
         "https://images.unsplash.com/photo-1667506057200-e55b56ee2b44?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
     };
-
+    setIsLoading(true);
     await http
-      .post("v1/users", user)
+      .post("v1/users", userAdd)
       .then((res) => {
         navigate("/users");
         setIsLoading(false);
@@ -201,7 +206,14 @@ const AddUserPage = () => {
         <Field>
           <Label>Business Email</Label>
           <Dropdown>
-            <Select placeholder={businessesSelect || "Business Email"}></Select>
+            <Select
+              placeholder={
+                user.role.name === "LOCAL_ADMIN"
+                  ? user?.businesses[0].email
+                  : businessesSelect || "Business Email"
+              }
+              edit={user.role.name === "LOCAL_ADMIN" ? true : false}
+            ></Select>
             <List>
               {businesses.length > 0 &&
                 businesses.map((item) => (
