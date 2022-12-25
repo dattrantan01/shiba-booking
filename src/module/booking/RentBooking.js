@@ -23,6 +23,7 @@ const RentBooking = ({
   handleDoneExtendDue,
   handleDoneDuePayment,
   overDueDay,
+  imgUrl,
 }) => {
   const endDate = moment(startDate)
     .add(monthRent, "months")
@@ -37,8 +38,11 @@ const RentBooking = ({
           {overDueDay} days left
         </div>
       )}
-      <div className="flex flex-row relative">
-        <div className="mt-5 text-lg w-full">
+      <div className="flex flex-row relative gap-3">
+        <div className="w-[150px] h-[150px]">
+          <img src={imgUrl} alt="" className="object-contain w-full h-full" />
+        </div>
+        <div className="mt-5 text-lg w-[calc(100%-150px)]">
           <div className="w-full grid grid-cols-2">
             <div>
               <div className="flex flex-row gap-2 items-center">

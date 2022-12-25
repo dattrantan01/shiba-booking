@@ -68,7 +68,7 @@ const AddUserPage = () => {
 
   useEffect(() => {
     http
-      .get("v1/businesses")
+      .get("v1/businesses?isOccupied=unOccupied")
       .then((res) => {
         setBusinesses(res.data?.rows);
       })
@@ -208,11 +208,11 @@ const AddUserPage = () => {
           <Dropdown>
             <Select
               placeholder={
-                user.role.name === "LOCAL_ADMIN"
+                user.role?.name === "LOCAL_ADMIN"
                   ? user?.businesses[0].email
                   : businessesSelect || "Business Email"
               }
-              edit={user.role.name === "LOCAL_ADMIN" ? true : false}
+              edit={user.role?.name === "LOCAL_ADMIN" ? true : false}
             ></Select>
             <List>
               {businesses.length > 0 &&

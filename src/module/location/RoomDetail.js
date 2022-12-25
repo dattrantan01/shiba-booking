@@ -148,35 +148,7 @@ const RoomDetail = () => {
           {!edit && <Button type="submit">Update</Button>}
         </form>
       </div>
-      {/* <div className="Reviews mt-7">
-        <h2 className="text-2xl font-bold text-primary mb-8">Reviews</h2>
-        <div className="flex flex-col gap-4">
-          {reviews.map((review) => (
-            <div className="flex flex-row gap-4 items-start">
-              <div className="w-[40px] h-[40px] rounded-full">
-                <img
-                  alt=""
-                  src={review.avatar}
-                  className="w-full h-full object-cover rounded-full"
-                />
-              </div>
-              <div className="bg-slate-200 px-3 py-3 rounded-2xl">
-                <span className="font-semibold">{review.name}</span>
-                <p className="text-sm">{review.comment}</p>
-                {review.imgUrl && (
-                  <div className="w-[300px] h-[300px] mt-3">
-                    <img
-                      src={review.imgUrl}
-                      alt=""
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div> */}
+
       <div className="flex flex-col gap-4 mt-7">
         {reviews.map((review) => (
           <div className="flex flex-row gap-4 items-start">
@@ -190,7 +162,7 @@ const RoomDetail = () => {
             <div className="bg-slate-200 px-3 py-3 rounded-2xl">
               <div className="flex flex-row gap-3">
                 <span className="font-semibold">{review.name}</span>
-                <Rating readonly={true} rating={review.rating} />
+                <Rating readonly={true} rating={review?.rating} />
               </div>
               <p className="text-sm">{review.comment}</p>
               {review.imgUrl && (

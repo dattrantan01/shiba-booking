@@ -92,6 +92,7 @@ const BookingManagePage = () => {
                 handleDoneExtendDue={handleDoneExtendDue}
                 handleDoneDuePayment={handleDoneDuePayment}
                 overDueDay={item.overDueDay}
+                imgUrl={item.imgUrl}
               ></RentBooking>
             );
           })}
