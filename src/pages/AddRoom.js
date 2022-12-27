@@ -98,7 +98,7 @@ const AddRoom = ({ locationId, handleClose = () => {} }) => {
           <div className="date_picker_wrapper mb-5 ">
             <DatePicker
               onChange={(date) => setDate(date)}
-              dateFormat="YYYY-MM-DD"
+              dateFormat="DD-MM-YYYY"
               value={date}
               timeFormat={false}
               wrapperClassName="datePicker"

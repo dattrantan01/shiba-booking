@@ -5,6 +5,7 @@ import Button from "../components/button/Button";
 import Table from "../components/table/Table";
 import http from "../config/axiosConfig";
 import AddRoom from "./AddRoom";
+import moment from "moment";
 
 const LocationDetail = () => {
   const param = useParams();
@@ -27,7 +28,7 @@ const LocationDetail = () => {
           name: room.name,
           capacity: room.capacity,
           price: room.price,
-          availableDay: room.availableDay?.slice(0, 10) || "",
+          availableDay: moment(room.availableDay).format("DD-MM-YYYY") || "",
         };
       });
       setRooms(listRoom);

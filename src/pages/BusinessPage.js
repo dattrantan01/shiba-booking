@@ -5,6 +5,7 @@ import Button from "../components/button/Button";
 import Table from "../components/table/Table";
 import http from "../config/axiosConfig";
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
+import moment from "moment";
 
 const BusinessPage = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const BusinessPage = () => {
             name: item.name,
             email: item.email,
             phone: item.phone,
-            endTime: item.endTime?.slice(0, 10),
+            endTime: item.endTime,
             active: item.isActive,
           };
           return bus;

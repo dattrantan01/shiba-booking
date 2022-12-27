@@ -32,8 +32,7 @@ const RentBookingModal = ({ handleClose, bookingId }) => {
   }, [bookingId]);
   const endDate = moment(bookingDetail?.startDay)
     .add(bookingDetail?.monthNumber, "months")
-    .toISOString()
-    .slice(0, 10);
+    .format("DD-MM-YYYY");
   const handleClick = () => {
     const currentStatus = bookingDetail?.status;
     const statusBooking = status[currentStatus];
@@ -89,7 +88,9 @@ const RentBookingModal = ({ handleClose, bookingId }) => {
                 <div className="flex flex-row gap-2 items-center">
                   <MdCalendarToday />
                   <span className="font-semibold">Start Date:</span>
-                  <span>{bookingDetail?.startDay.slice(0, 10)}</span>
+                  <span>
+                    {moment(bookingDetail?.startDay).format("DD-MM-YYYY")}
+                  </span>
                 </div>
               </div>
               <div>

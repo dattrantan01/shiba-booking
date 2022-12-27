@@ -1,3 +1,4 @@
+import moment from "moment";
 import React from "react";
 import { GoTriangleLeft } from "react-icons/go";
 
@@ -22,7 +23,7 @@ const Notifications = ({ notifications = [], handleClickNoti }) => {
                 <span className="font-bold">{item.username} </span>
                 <span className="font-medium">{item.message}</span>
                 <div className="font-semibold text-slate-400 text-xs flex flex-row gap-1 items-center mt-1">
-                  {item.createOn?.slice(0, 10)}
+                  {moment(item.createOn).format("DD-MM-YYYY")}
                 </div>
               </div>
             </div>
