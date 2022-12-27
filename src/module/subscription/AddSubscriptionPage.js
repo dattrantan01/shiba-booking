@@ -69,8 +69,7 @@ const AddSubscriptionPage = () => {
           let newEndTime = new Date();
           newEndTime = moment(newEndTime)
             .add(item.months, "months")
-            .toISOString()
-            .slice(0, 10);
+            .format("DD-MM-YYYY");
 
           setCurrentStartEndTime({
             endTime: "",
@@ -79,8 +78,7 @@ const AddSubscriptionPage = () => {
         } else {
           const newEndTime = moment(endTime)
             .add(item.months, "months")
-            .toISOString()
-            .slice(0, 10);
+            .format("DD-MM-YYYY");
           endTime = endTime.slice(0, 10);
           setCurrentStartEndTime((prev) => {
             return {

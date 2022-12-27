@@ -14,6 +14,7 @@ import UploadImage from "../../components/uploadImage/UploadImage";
 import Rating from "../../components/rating/Rating";
 import "react-datetime/css/react-datetime.css";
 import DatePicker from "react-datetime";
+import moment from "moment";
 
 const schema = yup.object({
   name: yup.string().required("Please enter room name"),
@@ -59,9 +60,14 @@ const RoomDetail = () => {
           name: res.data.name,
           capacity: res.data.capacity,
           imgUrl: res.data.imgUrl,
-          price: res.data.price,
+          price: Number(
+            res.data?.price
+              ?.split("")
+              .filter((digit) => digit !== ".")
+              .join("")
+          ),
         });
-        const dateStart = res.data?.availableDay?.slice(0, 10);
+        const dateStart = new Date(res.data?.availableDay);
         setDate(dateStart);
         setFile(res.data.imgUrl);
         setImgUpload(res.data.imgId);
@@ -138,7 +144,7 @@ const RoomDetail = () => {
             <DatePicker
               onChange={(date) => setDate(date)}
               value={date}
-              dateFormat="YYYY-MM-DD"
+              dateFormat="DD-MM-YYYY"
               timeFormat={false}
               wrapperClassName="datePicker"
               closeOnSelect={true}

@@ -186,7 +186,7 @@ const UserDetailPage = () => {
               type="email"
               name="email"
               control={control}
-              edit={edit}
+              edit={true}
             ></Input>
           </Field>
           <Field row={true}>

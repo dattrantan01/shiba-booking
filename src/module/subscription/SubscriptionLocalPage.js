@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
-import Button from "../../components/button/Button";
+
 import Table from "../../components/table/Table";
 import http from "../../config/axiosConfig";
 import { useAuth } from "../../context/auth-context";
