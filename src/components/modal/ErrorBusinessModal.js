@@ -25,7 +25,9 @@ const ErrorBusinessModal = ({ handleClose }) => {
               <img src="/bronze.svg" alt="" className="w-full h-full" />
             </div>
             <h2 className="text-2xl font-bold text-center mt-4">Bronze</h2>
-            <div className="text-xl font-medium text-center mt-5">50$</div>
+            <div className="text-xl font-medium text-center mt-5">
+              1.000.000 VND
+            </div>
             <div className="text-xl font-semibold text-center">6 months</div>
             <div className="mt-auto mx-auto mb-3">
               <Button>Check It</Button>
@@ -36,7 +38,9 @@ const ErrorBusinessModal = ({ handleClose }) => {
               <img src="/silver.svg" alt="" className="w-full h-full" />
             </div>
             <h2 className="text-2xl font-bold text-center mt-4">Silver</h2>
-            <div className="text-xl font-medium text-center mt-5">100$</div>
+            <div className="text-xl font-medium text-center mt-5">
+              1.900.000 VND
+            </div>
             <div className="text-xl font-semibold text-center">12 months</div>
             <div className="mt-auto mx-auto mb-3">
               <Button>Check It</Button>
@@ -47,7 +51,9 @@ const ErrorBusinessModal = ({ handleClose }) => {
               <img src="/gold.svg" alt="" className="w-full h-full" />
             </div>
             <h2 className="text-2xl font-bold text-center mt-4">Gold</h2>
-            <div className="text-xl font-medium text-center mt-5">200$</div>
+            <div className="text-xl font-medium text-center mt-5">
+              3.600.000 VND
+            </div>
             <div className="text-xl font-semibold text-center">18 months</div>
             <div className="mt-auto mx-auto mb-3">
               <Button>Check It</Button>
@@ -58,7 +64,9 @@ const ErrorBusinessModal = ({ handleClose }) => {
               <img src="/platinum.svg" alt="" className="w-full h-full" />
             </div>
             <h2 className="text-2xl font-bold text-center mt-4">Platinum</h2>
-            <div className="text-xl font-medium text-center mt-5">300$</div>
+            <div className="text-xl font-medium text-center mt-5">
+              5.400.000 VND
+            </div>
             <div className="text-xl font-semibold text-center">24 months</div>
             <div className="mt-auto mx-auto mb-3">
               <Button>Check It</Button>

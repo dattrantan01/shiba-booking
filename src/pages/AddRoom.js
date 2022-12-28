@@ -21,6 +21,7 @@ const schema = yup.object({
 });
 const AddRoom = ({ locationId, handleClose = () => {} }) => {
   const [date, setDate] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const {
     handleSubmit,
     control,
@@ -43,6 +44,7 @@ const AddRoom = ({ locationId, handleClose = () => {} }) => {
     imgUpload,
     setFile,
     setImgUpload,
+    isLoadingImage,
   } = useUploadImage();
   const addRoom = (values) => {
     const availableDay = date.toISOString();
@@ -54,11 +56,10 @@ const AddRoom = ({ locationId, handleClose = () => {} }) => {
       availableDay: availableDay,
       imgId: imgUpload,
     };
-    console.log(roomAdd);
+    setIsLoading(true);
     http
       .post(`booking/rooms`, roomAdd)
       .then((res) => {
-        console.log("addroom", res);
         reset({
           name: "",
           capacity: "",
@@ -66,10 +67,12 @@ const AddRoom = ({ locationId, handleClose = () => {} }) => {
         });
         setFile("");
         setImgUpload("");
+        setIsLoading(false);
         toast.success("Add new room success");
       })
       .catch((err) => {
-        console.log("addroom err", err);
+        setIsLoading(false);
+        toast.error(err.data.message);
       });
   };
   return (
@@ -78,6 +81,7 @@ const AddRoom = ({ locationId, handleClose = () => {} }) => {
         <UploadImage
           file={file}
           imgUpload={imgUpload}
+          isLoadingImage={isLoadingImage}
           handleUploadImage={handleUploadImage}
           handleDeleteImage={handleDeleteImage}
         />
@@ -106,7 +110,9 @@ const AddRoom = ({ locationId, handleClose = () => {} }) => {
               inputProps={{ readOnly: true }}
             />
           </div>
-          <Button type="submit">ADD</Button>
+          <Button type="submit" isLoading={isLoading}>
+            ADD
+          </Button>
         </form>
         <div
           className="cursor-pointer absolute top-1 -left-0"

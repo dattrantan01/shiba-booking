@@ -13,6 +13,7 @@ const SubscriptionLocalPage = () => {
   const [subList, setSubList] = useState([]);
   const businessId = user?.businesses[0].id;
   useEffect(() => {
+    setIsLoading(true);
     http
       .get(`v1/subscriptions?businessId=${businessId}`)
       .then((res) => {
@@ -37,7 +38,7 @@ const SubscriptionLocalPage = () => {
         console.log(err);
         setIsLoading(false);
       });
-  });
+  }, [businessId]);
   const previousPage = () => {
     if (page <= 1) return;
     setPage(page - 1);

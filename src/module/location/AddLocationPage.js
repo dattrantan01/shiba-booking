@@ -53,12 +53,17 @@ const AddLocationPage = () => {
   const [cityName, setCityName] = useState("");
   const [districtName, setDistrictName] = useState("");
   const [wardsName, setWardsName] = useState("");
-  const { utilities, handleAddUtility, handleClearUtility, isLoadingImage } =
+  const { utilities, handleAddUtility, handleClearUtility } =
     useUtilities(unregister);
   const watchActive = watch("active");
 
-  const { handleUploadImage, handleDeleteImage, file, imgUpload } =
-    useUploadImage();
+  const {
+    handleUploadImage,
+    handleDeleteImage,
+    file,
+    imgUpload,
+    isLoadingImage,
+  } = useUploadImage();
 
   useEffect(() => {
     http.get(`booking/locations/cities`).then((res) => {
