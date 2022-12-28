@@ -18,6 +18,7 @@ import http from "../../config/axiosConfig";
 import { useNavigate, useNavigation, useParams } from "react-router-dom";
 import useUploadImage from "../../hooks/useUploadImage";
 import UploadImage from "../../components/uploadImage/UploadImage";
+import ModalLoading from "../../components/loading/ModalLoading";
 
 const LocationUpdatePage = () => {
   const param = useParams();
@@ -51,7 +52,8 @@ const LocationUpdatePage = () => {
       desc: "",
     },
   });
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingButton, setIsLoadingButton] = useState(false);
   const [cities, setCites] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -67,41 +69,55 @@ const LocationUpdatePage = () => {
     imgUpload,
     setFile,
     setImgUpload,
+    isLoadingImage,
   } = useUploadImage();
   const navigate = useNavigate();
 
   const watchActive = watch("active");
 
   useEffect(() => {
-    http.get(`booking/locations/${id}`).then((res) => {
-      reset({
-        name: res?.data.name,
-        address: res?.data.address,
-        city: res?.data.cityId,
-        district: res?.data.districtId,
-        wards: res?.data.wardsId,
-        active: res?.data.isActive,
-        desc: res?.data.description,
-      });
-      console.log(res.data);
-      setFile(res?.data.imgUrl);
-      setImgUpload(res?.data.imgId);
-      const utilityResponses = [];
-      res?.data.utilityResponses.forEach((item, index) => {
-        utilityResponses.push({
-          name: `nameUtility${index}`,
-          price: `priceUtility${index}`,
-          index: index,
+    setIsLoading(true);
+    http
+      .get(`booking/locations/${id}`)
+      .then((res) => {
+        reset({
+          name: res?.data.name,
+          address: res?.data.address,
+          city: res?.data.cityId,
+          district: res?.data.districtId,
+          wards: res?.data.wardsId,
+          active: res?.data.isActive,
+          desc: res?.data.description,
         });
-        setValue(`nameUtility${index}`, item.name);
-        setValue(`priceUtility${index}`, item.price);
-      });
+        console.log(res.data);
+        setFile(res?.data.imgUrl);
+        setImgUpload(res?.data.imgId);
+        const utilityResponses = [];
+        res?.data.utilityResponses.forEach((item, index) => {
+          utilityResponses.push({
+            name: `nameUtility${index}`,
+            price: `priceUtility${index}`,
+            index: index,
+          });
+          setValue(`nameUtility${index}`, item.name);
+          const priceInt = Number(
+            item.price
+              .split("")
+              .filter((digit) => digit !== ".")
+              .join("")
+          );
+          setValue(`priceUtility${index}`, priceInt);
+        });
 
-      setUtilities(utilityResponses);
-      setCityName(res?.data.city);
-      setDistrictName(res?.data.district);
-      setWardsName(res?.data.wards);
-    });
+        setUtilities(utilityResponses);
+        setCityName(res?.data.city);
+        setDistrictName(res?.data.district);
+        setWardsName(res?.data.wards);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+      });
     http.get(`booking/locations/cities`).then((res) => {
       setCites(res?.data);
     });
@@ -163,18 +179,24 @@ const LocationUpdatePage = () => {
       ImgId: imgUpload,
     };
     console.log(locationAdd);
+    setIsLoadingButton(true);
     http
       .put(`booking/locations`, locationAdd)
       .then((res) => {
         console.log(res);
         toast.success("success");
+        setIsLoadingButton(false);
         navigate("/locations");
       })
-      .catch((err) => console.error("err", err));
+      .catch((err) => {
+        setIsLoadingButton(false);
+        console.error("err", err);
+      });
   };
 
   return (
     <div className="p-8 w-full">
+      {isLoading && <ModalLoading />}
       <h1 className="font-bold text-2xl text-primary"> UPDATE LOCATION</h1>
       <form className="w-full mt-8" onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2">
@@ -246,6 +268,7 @@ const LocationUpdatePage = () => {
             <UploadImage
               file={file}
               imgUpload={imgUpload}
+              isLoadingImage={isLoadingImage}
               handleUploadImage={handleUploadImage}
               handleDeleteImage={handleDeleteImage}
             />
@@ -302,7 +325,9 @@ const LocationUpdatePage = () => {
           </div>
         </div>
         <div className="button-container mt-5">
-          <Button type="submit">Submit</Button>
+          <Button type="submit" isLoading={isLoadingButton}>
+            Submit
+          </Button>
         </div>
       </form>
     </div>

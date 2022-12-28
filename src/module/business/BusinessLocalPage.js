@@ -9,6 +9,7 @@ import Field from "../../components/field/Field";
 import Label from "../../components/label/Label";
 import Input from "../../components/input/Input";
 import { toast } from "react-toastify";
+import ModalLoading from "../../components/loading/ModalLoading";
 
 const schema = yup.object({
   email: yup
@@ -21,6 +22,7 @@ const schema = yup.object({
 const BusinessLocalPage = () => {
   const { user } = useAuth();
   const [edit, setEdit] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     handleSubmit,
     control,
@@ -39,6 +41,7 @@ const BusinessLocalPage = () => {
   const businessId = user.businesses && user.businesses[0].id;
   useEffect(() => {
     if (!businessId) return;
+    setIsLoading(true);
     http
       .get(`v1/businesses/${businessId}`)
       .then((res) => {
@@ -47,8 +50,10 @@ const BusinessLocalPage = () => {
           email: res.data.email,
           phone: res.data.phone,
         });
+        setIsLoading(false);
       })
       .catch((err) => {
+        setIsLoading(false);
         console.log(err);
       });
   }, [businessId]);
@@ -73,6 +78,7 @@ const BusinessLocalPage = () => {
 
   return (
     <div className="p-8 w-full">
+      {isLoading && <ModalLoading />}
       <div className="flex flex-row justify-between items-center">
         <h1 className="font-bold text-2xl text-primary">Local Business</h1>
         <Button onClick={() => setEdit(!edit)}>

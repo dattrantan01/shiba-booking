@@ -30,7 +30,7 @@ const AddSubscriptionPage = () => {
 
   useEffect(() => {
     http
-      .get(`v1/businesses`)
+      .get(`v1/businesses?pagination=no`)
       .then((res) => {
         setBusinesses(res.data?.rows);
       })
@@ -76,9 +76,12 @@ const AddSubscriptionPage = () => {
             newEndTime: newEndTime,
           });
         } else {
+          const endTimeList = endTime.split("/");
+          [endTimeList[0], endTimeList[2]] = [endTimeList[2], endTimeList[0]];
+          endTime = endTimeList.join("/");
           const newEndTime = moment(endTime)
             .add(item.months, "months")
-            .format("DD-MM-YYYY");
+            .format("DD/MM/YYYY");
           endTime = endTime.slice(0, 10);
           setCurrentStartEndTime((prev) => {
             return {
@@ -102,6 +105,7 @@ const AddSubscriptionPage = () => {
   };
   console.log(currentStartEndTime);
   const handleSubmit = () => {
+    setIsLoading(true);
     const addSub = {
       ...value,
     };
@@ -111,9 +115,12 @@ const AddSubscriptionPage = () => {
       .then((res) => {
         toast.success("success");
         navigate("/subscriptions");
-        console.log(res);
+        setIsLoading(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -181,7 +188,9 @@ const AddSubscriptionPage = () => {
           />
         </div> */}
       </div>
-      <Button onClick={handleSubmit}>Submit</Button>
+      <Button onClick={handleSubmit} isLoading={isLoading}>
+        Submit
+      </Button>
     </div>
   );
 };

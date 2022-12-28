@@ -37,6 +37,7 @@ const HomePage = () => {
   const [roleType, setRoleType] = useState("");
   const [roles, setRoles] = useState([]);
   const [changePassword, setChangePassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     handleSubmit,
     control,
@@ -99,14 +100,16 @@ const HomePage = () => {
       avatar:
         "https://images.unsplash.com/photo-1667506057200-e55b56ee2b44?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
     };
-
+    setIsLoading(true);
     await http
       .put(`v1/users/${user.id}`, userEdit)
       .then((res) => {
         toast.success("success");
+        setIsLoading(false);
         setEdit((prev) => !prev);
       })
       .catch((err) => {
+        setIsLoading(false);
         console.log(err);
       });
 
@@ -265,7 +268,9 @@ const HomePage = () => {
               </div>
             )}
             <div className="">
-              <Button type="submit">Submit</Button>
+              <Button type="submit" isLoading={isLoading}>
+                Submit
+              </Button>
             </div>
           </>
         )}

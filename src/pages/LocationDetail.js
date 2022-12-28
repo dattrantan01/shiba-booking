@@ -6,6 +6,7 @@ import Table from "../components/table/Table";
 import http from "../config/axiosConfig";
 import AddRoom from "./AddRoom";
 import moment from "moment";
+import ModalLoading from "../components/loading/ModalLoading";
 
 const LocationDetail = () => {
   const param = useParams();
@@ -13,11 +14,19 @@ const LocationDetail = () => {
   const [rooms, setRooms] = useState([]);
   const [location, setLocation] = useState();
   const [showAddRoom, setShowAddRoom] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [loadingButton, setLoadingButton] = useState(false);
   const getDetailRoom = () => {
-    http.get(`booking/locations/${id}`).then((res) => {
-      console.log(res.data);
-      setLocation(res.data);
-    });
+    setLoading(true);
+    http
+      .get(`booking/locations/${id}`)
+      .then((res) => {
+        setLoading(false);
+        setLocation(res.data);
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
   };
   const getListRoom = () => {
     http.post(`booking/locations/${id}/rooms/all`, {}).then((res) => {
@@ -42,11 +51,17 @@ const LocationDetail = () => {
   const head = ["Name", "Capacity", "Price", "Start Date"];
   const handleDelete = async (id) => {
     if (!location) return;
-    http.get(`booking/rooms/${id}`, {}).then((res) => {
-      console.log(res);
-      toast.success("Success");
-      getListRoom();
-    });
+    setLoading(true);
+    http
+      .get(`booking/rooms/${id}`, {})
+      .then((res) => {
+        setLoading(false);
+        toast.success("Success");
+        getListRoom();
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
   };
   const handleClose = () => {
     setShowAddRoom(false);
@@ -54,6 +69,7 @@ const LocationDetail = () => {
   };
   return (
     <>
+      {loading && <ModalLoading />}
       <div className="p-6">
         <div className="flex flex-row gap-8">
           <div className="w-[250px] min-w-[250px] h-[250px] ">

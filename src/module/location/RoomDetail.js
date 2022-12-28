@@ -15,6 +15,7 @@ import Rating from "../../components/rating/Rating";
 import "react-datetime/css/react-datetime.css";
 import DatePicker from "react-datetime";
 import moment from "moment";
+import ModalLoading from "../../components/loading/ModalLoading";
 
 const schema = yup.object({
   name: yup.string().required("Please enter room name"),
@@ -27,6 +28,8 @@ const RoomDetail = () => {
   const [edit, setEdit] = useState(true);
   const [reviews, setReviews] = useState([]);
   const [date, setDate] = useState();
+  const [loading, setLoading] = useState(false);
+  const [loadingButton, setLoadingButton] = useState(false);
   const navigate = useNavigate();
   const {
     handleUploadImage,
@@ -35,6 +38,7 @@ const RoomDetail = () => {
     imgUpload,
     setFile,
     setImgUpload,
+    isLoadingImage,
   } = useUploadImage();
   const {
     handleSubmit,
@@ -53,6 +57,7 @@ const RoomDetail = () => {
   });
 
   useEffect(() => {
+    setLoading(true);
     http
       .get(`booking/rooms/${id}/detail`)
       .then((res) => {
@@ -71,8 +76,12 @@ const RoomDetail = () => {
         setDate(dateStart);
         setFile(res.data.imgUrl);
         setImgUpload(res.data.imgId);
+        setLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
 
     http
       .get(`booking/rooms/${id}/reviews`)
@@ -91,6 +100,7 @@ const RoomDetail = () => {
   }, [errors]);
   const handleUpdateRoom = (values) => {
     const availableDay = new Date(date).toISOString();
+    setLoadingButton(true);
     http
       .put(`booking/rooms/${id}`, {
         name: values.name,
@@ -103,17 +113,23 @@ const RoomDetail = () => {
         toast.success("Success");
         navigate(-1);
         setEdit((prev) => !prev);
-        console.log(res);
+        setLoadingButton(false);
+      })
+      .catch((err) => {
+        setLoadingButton(false);
+        toast.error(err.data.message);
       });
   };
 
   return (
     <div className="p-8">
+      {loading && <ModalLoading />}
       <div className="flex flex-col gap-4">
         <div className="flex flex-row justify-between">
           <UploadImage
             file={file}
             imgUpload={imgUpload}
+            isLoadingImage={isLoadingImage}
             handleUploadImage={handleUploadImage}
             handleDeleteImage={handleDeleteImage}
           />
@@ -151,7 +167,11 @@ const RoomDetail = () => {
               inputProps={{ readOnly: true }}
             />
           </div>
-          {!edit && <Button type="submit">Update</Button>}
+          {!edit && (
+            <Button type="submit" isLoading={loadingButton}>
+              Update
+            </Button>
+          )}
         </form>
       </div>
 

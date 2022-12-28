@@ -23,12 +23,12 @@ const booking = [
     color: "text-purple-400",
   },
   {
-    name: "OverDuePayment ",
+    name: "Due Payment ",
     url: "/booking/5",
     color: "text-pink-400",
   },
   {
-    name: "ExtendDueBooking",
+    name: "Extend Due Booking",
     url: "/booking/6",
     color: "text-orange-400",
   },

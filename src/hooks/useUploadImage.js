@@ -28,12 +28,12 @@ export default function useUploadImage() {
   };
 
   const handleUploadImage = (e) => {
-    setIsLoadingImage(true);
     const fileUpload = e.target.files[0];
     setFile(URL.createObjectURL(fileUpload));
     const formData = new FormData();
     formData.append("Img", fileUpload);
     const token = localStorage.getItem("token");
+    setIsLoadingImage(true);
     axios
       .post(
         "https://pbl6-prod-pbl-dspnq9.mo6.mogenius.io/api/booking/photos/upload",

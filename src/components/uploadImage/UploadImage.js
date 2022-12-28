@@ -6,8 +6,9 @@ const UploadImage = ({
   handleDeleteImage,
   handleUploadImage,
   imgUpload,
-  isLoadingImage,
+  isLoadingImage = false,
 }) => {
+  console.log("isLoadingImage", isLoadingImage);
   return (
     <>
       <div className="mt-8 mb-8 relative w-[350px] h-[280px]">

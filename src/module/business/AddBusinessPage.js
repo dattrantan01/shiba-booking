@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -12,6 +12,7 @@ import http from "../../config/axiosConfig";
 import { useNavigate } from "react-router-dom";
 
 const AddBusinessPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const schema = yup
     .object({
       name: yup.string().required("Please enter your name business"),
@@ -49,6 +50,7 @@ const AddBusinessPage = () => {
   }, [errors]);
   const onSubmit = (values) => {
     console.log("values", values);
+    setIsLoading(true);
     http
       .post("v1/businesses", {
         name: values.name,
@@ -67,8 +69,12 @@ const AddBusinessPage = () => {
           active: true,
         });
         navigate("/businesses");
+        setIsLoading(false);
       })
-      .catch((err) => toast.err("failed"));
+      .catch((err) => {
+        toast.err("failed");
+        setIsLoading(false);
+      });
   };
   return (
     <div className="p-8 w-full">
@@ -95,7 +101,9 @@ const AddBusinessPage = () => {
             Active
           </Toggle> */}
         </div>
-        <Button type="submit">Submit</Button>
+        <Button type="submit" isLoading={isLoading}>
+          Submit
+        </Button>
       </form>
     </div>
   );
