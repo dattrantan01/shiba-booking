@@ -51,7 +51,7 @@ const SubscriptionLocalPage = () => {
   const head = [
     "Business",
     "Package",
-    "Price",
+    "Price (VND)",
     "Start Time",
     "End Time",
     "Is Done",
