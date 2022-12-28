@@ -48,7 +48,7 @@ const LocationDetail = () => {
     getListRoom();
   }, [id]);
 
-  const head = ["Name", "Capacity", "Price", "Start Date"];
+  const head = ["Name", "Capacity", "Price (VND)", "Start Date"];
   const handleDelete = async (id) => {
     if (!location) return;
     setLoading(true);
